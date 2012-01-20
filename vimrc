@@ -426,13 +426,12 @@
     au FileType php imap <c-P> <?php<return><return>?><esc>k^i<tab>
 " }
 
-" VCSCommand Mappings {
-    map <leader>gc :VCSCommit<cr>
-    "map <leader>gp :VCSUpdate<cr>
+" Fugitive Mappings {
+    map <leader>gc :Gcommit<cr>
     map <leader>Gp :!git pull
     map <leader>GP :!git push<cr>
     map <leader>gRR :VCSRevert<cr>
-    map <leader>gs :VCSStatus<cr>
+    map <leader>gs :Gstatus<cr>
 " }
 
 " Command-T Mappings {
