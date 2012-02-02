@@ -234,7 +234,7 @@
                           " fold manually)
     set foldopen=block,hor,mark,percent,quickfix,tag,jump,search " what movements
                                                                  " open folds
-    function SimpleFoldText()
+    function! SimpleFoldText()
         return getline(v:foldstart).' '
     endfunction
 
@@ -338,7 +338,7 @@
     " $q is super useful when browsing on the command line
     cno $q <C-\>eDeleteTillSlash()<cr>
 
-    cno $_ perldo 
+    "cno $_ perldo
 
     " Bash like keys for the command line
     cnoremap <C-A>      <Home>
@@ -347,12 +347,6 @@
 
     cnoremap <C-P> <Up>
     cnoremap <C-N> <Down>
-
-    " Useful on some European keyboards
-    "map ½ $
-    "imap ½ $
-    "vmap ½ $
-    "cmap ½ $
 
     func! DeleteTillSlash()
         let g:cmd = getcmdline()
@@ -563,29 +557,28 @@
 "  }}}
 
 " Autocommands  {{{
-    function! IndentFold()
+    function! IndentFold() " Unused for now
         setlocal foldmethod=expr
         setlocal foldexpr=(getline(v:lnum)=~'^$')?-1:((indent(v:lnum)<indent(v:lnum+1))?('>'.indent(v:lnum+1)):indent(v:lnum))
         setlocal foldtext=getline(v:foldstart)
         setlocal fillchars=fold:\ "(there's a space after that \))"
     endfunction
+    function! SetShortTabStops()
+        setlocal shiftwidth=2
+        setlocal softtabstop=2
+    endfunction
     " Ruby  {{{
         " ruby standard 2 spaces, always
-        au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2 
-        au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2 
+        "au BufRead,BufNewFile *.rb,*.rhtml call SetShortTabStops()
+        au FileType ruby call SetShortTabStops()
     "  }}}
     " Apache  {{{
         " apache 2 spaces, always
-        au FileType apache set shiftwidth=2 
-        au FileType apache set softtabstop=2 
+        au FileType apache call SetShortTabStops()
     "  }}}
     " Coffeescript  {{{
-        au FileType coffee setl shiftwidth=2
-        au FileType coffee setl softtabstop=2
+        au FileType coffee call SetShortTabStops()
     "  }}}
-    au BufNewFile,BufRead *.ahk setf ahk 
-    au BufNewFile,BufRead *.cssp setf turbine 
-    "au Filetype html,xml,xsl source ~/.vim/bundle/closetag/scripts/closetag.vim
 "  }}}
 
 " GUI Settings, colors and fonts  {{{
