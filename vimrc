@@ -1,5 +1,5 @@
-" Modeline and Notes {
-"   vim: set foldmarker={,} foldlevel=0 spell:
+" Modeline and Notes  {{{
+"   vim: set foldmarker={{{,}}} foldlevel=0 spell:
 "
 "   Plugins referenced:
 "   - NERDTree
@@ -7,39 +7,21 @@
 "   - BufferExplorer
 "   - neocomplcache
 "
-" }
+"  }}}
 
-" Basics {
+" Vundle  {{{
+
     filetype off
-
     set nocompatible " explicitly get out of vi-compatible mode
-    set noexrc " don't use local version of .(g)vimrc, .exrc
-    set encoding=utf8 " just in case ;)
-
-    "set cpoptions=aABceFsmq
-    "             |||||||||
-    "             ||||||||+-- When joining lines, leave the cursor
-    "             |||||||      between joined lines
-    "             |||||||+-- When a new match is created (showmatch)
-    "             ||||||      pause for .5
-    "             ||||||+-- Set buffer options when entering the
-    "             |||||      buffer
-    "             |||||+-- :write command updates current file name
-    "             ||||+-- Automatically add <CR> to the last line
-    "             |||      when using :@r
-    "             |||+-- Searching continues at the end of the match
-    "             ||      at the cursor position
-    "             ||+-- A backslash has no special meaning in mappings
-    "             |+-- :write updates alternative file name
-    "             +-- :read updates alternative file name
-
-    syntax on " syntax highlighting on
-" }
-
-" Vundle {
 
     set rtp+=~/.vim/bundle/vundle/
+
+    set encoding=utf8 " just in case ;)
     call vundle#rc()
+
+    " Powerline Settings  {{{
+        let g:Powerline_symbols = 'fancy'
+    "  }}}
 
     " let Vundle manage Vundle
     " required!
@@ -53,8 +35,6 @@
     Bundle 'git://git.wincent.com/command-t.git'
 
     Bundle 'joestelmach/javaScriptLint.vim'
-
-    "Bundle 'JavaScript-Indent'
 
     Bundle 'Shougo/neocomplcache'
 
@@ -82,9 +62,42 @@
 
     Bundle 'FuzzyFinder'
 
-" }
+    Bundle 'kchmck/vim-coffee-script'
 
-" General {
+    Bundle 'xaviershay/tslime.vim'
+
+    Bundle 'Lokaltog/vim-powerline'
+
+    Bundle 'scrooloose/syntastic'
+
+    Bundle 'YankRing.vim'
+"  }}}
+
+" Basics  {{{
+
+    set noexrc " don't use local version of .(g)vimrc, .exrc
+
+    set cpoptions=aABceFsmq
+    "             |||||||||
+    "             ||||||||+-- When joining lines, leave the cursor
+    "             |||||||      between joined lines
+    "             |||||||+-- When a new match is created (showmatch)
+    "             ||||||      pause for .5
+    "             ||||||+-- Set buffer options when entering the
+    "             |||||      buffer
+    "             |||||+-- :write command updates current file name
+    "             ||||+-- Automatically add <CR> to the last line
+    "             |||      when using :@r
+    "             |||+-- Searching continues at the end of the match
+    "             ||      at the cursor position
+    "             ||+-- A backslash has no special meaning in mappings
+    "             |+-- :write updates alternative file name
+    "             +-- :read updates alternative file name
+
+    syntax on " syntax highlighting on
+"  }}}
+
+" General  {{{
     filetype plugin indent on " load filetype plugins/indent settings
 
     "set autochdir " always switch to the current file directory
@@ -129,11 +142,12 @@
     set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
                     \*.jpg,*.gif,*.png
     set wildmode=list:longest " turn on wild mode huge list
-" }
+"  }}}
 
-" Vim UI {
+" Vim UI  {{{
     colorscheme solarized " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
     set cursorline " highlight current line
+    set cursorcolumn " highlight the current column
     set incsearch " BUT do highlight as you type you
                    " search phrase
     set laststatus=2 " always show the status line
@@ -184,9 +198,9 @@
             return ''
         endif
     endfunction
-" }
+"  }}}
 
-" Text Formatting/Layout {
+" Text Formatting/Layout  {{{
     "set completeopt=    " don't use a pop up menu for completions
     set expandtab        " no real tabs please!
     set formatoptions=rq " Automatically insert comment leader on return,
@@ -209,9 +223,9 @@
                          " should a tab be (see expandtab)
     set tabstop=4        " real tabs should be 8, and they will show with
                          " set list on
-" }
+"  }}}
 
-" Folding {
+" Folding  {{{
     set foldenable        " Turn on folding
     set foldmarker={,}    " Fold C style code (only use this as default
                           " if you use a high foldlevel)
@@ -220,15 +234,15 @@
                           " fold manually)
     set foldopen=block,hor,mark,percent,quickfix,tag,jump,search " what movements
                                                                  " open folds
-    function SimpleFoldText() " {
+    function SimpleFoldText()
         return getline(v:foldstart).' '
-    endfunction " }
+    endfunction
 
     set foldtext=SimpleFoldText() " Custom fold text function
                                   " (cleaner than default)
-" }
+"  }}}
 
-" Mappings {
+" Mappings  {{{
     " 'D' maps the 'Command'/Apple key
     "imap <D-cr> <cr>
 
@@ -248,20 +262,21 @@
     map <leader>fC :%foldc<cr>
     map <leader>fo :foldo<cr>
     map <leader>fO :%foldo<cr>
-" }
+"  }}}
 
-" Moving around, tabs and buffers {
+" Moving around, tabs and buffers  {{{
     " space / shift-space scroll in normal mode
     noremap <S-space> <C-b>
     noremap <space> <C-f>
 
-    " Make Arrow Keys Useful Again {
-        map <down> <ESC>:bn<RETURN>
+    " Make Arrow Keys Useful Again  {{{
+        "map <down> <ESC>:bn<RETURN>
+        "map <up> <ESC>:bp<RETURN>
+
         map <left> <ESC>:NERDTreeToggle<RETURN>
         " map <right> <ESC>:Tlist<RETURN>
         map <right> <ESC>:TagbarToggle<RETURN>
-        map <up> <ESC>:bp<RETURN>
-    " }
+    "  }}}
 
     " Tab configuration
     map <leader>tn :tabnew<cr>
@@ -274,9 +289,9 @@
     " When pressing <leader>cd switch to the directory of the open buffer
     map <leader>cd :cd %:p:h<cr>
 
-" }
+"  }}}
 
-" Visual Mode Related {
+" Visual Mode Related  {{{
     "  In visual mode when you press * or # to search for the current selection
     vnoremap <silent> * :call VisualSearch('f')<CR>
     vnoremap <silent> # :call VisualSearch('b')<CR>
@@ -311,9 +326,9 @@
         let @/ = l:pattern
         let @" = l:saved_reg
     endfunction
-" }
+"  }}}
 
-" Command Mode Related {
+" Command Mode Related  {{{
     " Smart mappings on the command line
     cno $h e ~/
     cno $d e ~/Desktop/
@@ -360,9 +375,9 @@
         return a:cmd . " " . expand("%:p:h") . "/"
     endfunc
 
-" }
+"  }}}
 
-" Editing Mappings {
+" Editing Mappings  {{{
     "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
     nmap <M-j> mz:m+<cr>`z
     nmap <M-k> mz:m-2<cr>`z
@@ -383,9 +398,9 @@
         exe "normal `z"
     endfunc
     autocmd BufWrite *.py :call DeleteTrailingWS()
-" }
+"  }}}
 
-" Spell Checking {
+" Spell Checking  {{{
     "Pressing ,ss will toggle and untoggle spell checking
     map <leader>ss :setlocal spell!<cr>
 
@@ -394,9 +409,9 @@
     map <leader>sp [s
     map <leader>sa zg
     map <leader>s? z=
-" }
+"  }}}
 
-" JavaScript Section {
+" JavaScript Section  {{{
     au FileType javascript imap <c-l> console.log();<esc>hi
     au FileType javascript call JavaScriptFold()
     "au FileType javascript setl nocindent
@@ -407,7 +422,7 @@
         syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 
         function! FoldText()
-            return substitute(getline(v:foldstart), '{.*', '{...}', '') " }
+            return substitute(getline(v:foldstart), '{.*', '{...}', '')
         endfunction
         setl foldtext=FoldText()
         setl fen
@@ -418,43 +433,46 @@
 
     let g:tagbar_type_javascript = {
         \ 'ctagsbin' : '/usr/local/bin/jsctags'
-    \ }" }
+    \ }
 
-" php Section {
+    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+"  }}}
+
+" php Section  {{{
     au FileType php imap <c-e> <?php echo  ?><esc>hhi
     au FileType php imap <c-p> <?php  ?><esc>hhi
     au FileType php imap <c-P> <?php<return><return>?><esc>k^i<tab>
-" }
+"  }}}
 
-" Fugitive Mappings {
+" Fugitive Mappings  {{{
     map <leader>gc :Gcommit<cr>
     map <leader>Gp :!git pull
     map <leader>GP :!git push<cr>
     map <leader>gRR :VCSRevert<cr>
     map <leader>gs :Gstatus<cr>
-" }
+"  }}}
 
-" Command-T Mappings {
+" Command-T Mappings  {{{
     let g:CommandTMaxHeight = 15
     set wildignore+=*.o,*.obj,.git,*.pyc
     noremap <leader>o :CommandT<cr>
-    noremap <leader>y :CommandTFlush<cr>
-" }
+    "noremap <leader>y :CommandTFlush<cr>
+"  }}}
 
-" Cope Mappings {
+" Cope Mappings  {{{
     map <leader>cc :botright cope<cr>
     map <leader>cw :botright cw<cr>
     map <leader>cq :ccl<cr>
     map <leader>n :cn<cr>
     map <leader>p :cp<cr>
-" }
+"  }}}
 
-" Plugin Settings {
+" Plugin Settings  {{{
     let b:match_ignorecase = 1 " case is stupid
     let perl_extended_vars = 1 " highlight advanced perl vars
                                " inside strings
 
-    " neocomplcache Settings {
+    " neocomplcache Settings  {{{
         let g:neocomplcache_enable_at_startup = 1 " enable at startup
         let g:neocomplcache_enable_smart_case = 1 " smartcase completion
         let g:neocomplcache_enable_camel_case_completion = 1 " camelcase completion
@@ -503,9 +521,9 @@
         let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
         "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
         let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    " }
+    "  }}}
 
-    " TagList Settings {
+    " TagList Settings  {{{
         let Tlist_Auto_Open=0 " let the tag list open automatically
         let Tlist_Compact_Format = 1 " show small menu
         let Tlist_Ctags_Cmd = 'ctags' " location of ctags
@@ -518,7 +536,7 @@
                                         " of the screen
         let Tlist_WinWidth = 40 " 40 cols wide, so i can (almost always)
                                  " read my functions
-        " Language Specifics {
+        " Language Specifics  {{{
             " just functions and classes please
             let tlist_aspjscript_settings = 'asp;f:function;c:class' 
             " just functions and subs please
@@ -527,29 +545,41 @@
             let tlist_php_settings = 'php;c:class;d:constant;f:function' 
             " just functions and classes please
             let tlist_vb_settings = 'asp;f:function;c:class' 
-        " }
-    " }
+        "  }}}
+    "  }}}
 
-    " AutoPairs Settings {
+    " AutoPairs Settings  {{{
         let g:AutoPairsCenterLine = 0
-    " }
+    "  }}}
 
     " BufExplorer mappings
     map <leader>b :BufExplorer<cr>
-" }
 
-" Autocommands {
-    " Ruby {
+    " YankRing settings and mappings  {{{
+        let g:yankring_history_dir = '~/.vim/.yankring'
+        map <leader>y :YRShow<cr>
+    "  }}}
+
+"  }}}
+
+" Autocommands  {{{
+    function! IndentFold()
+        setlocal foldmethod=expr
+        setlocal foldexpr=(getline(v:lnum)=~'^$')?-1:((indent(v:lnum)<indent(v:lnum+1))?('>'.indent(v:lnum+1)):indent(v:lnum))
+        setlocal foldtext=getline(v:foldstart)
+        setlocal fillchars=fold:\ "(there's a space after that \))"
+    endfunction
+    " Ruby  {{{
         " ruby standard 2 spaces, always
         au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2 
         au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2 
-    " }
-    " Apache {
+    "  }}}
+    " Apache  {{{
         " apache 2 spaces, always
         au FileType apache set shiftwidth=2 
         au FileType apache set softtabstop=2 
-    " }
-    " Notes {
+    "  }}}
+    " Notes  {{{
         " I consider .notes files special, and handle them differently, I
         " should probably put this in another file
         au BufRead,BufNewFile *.notes set foldlevel=2
@@ -565,18 +595,21 @@
         au BufRead,BufNewFile *.notes set nocursorline
         "au BufRead,BufNewFile *.notes set guifont=Consolas:h12
         au BufRead,BufNewFile *.notes set spell
-    " }
+    "  }}}
+    " Coffeescript  {{{
+        au FileType coffee setl shiftwidth=2
+        au FileType coffee setl softtabstop=2
+    "  }}}
     au BufNewFile,BufRead *.ahk setf ahk 
     au BufNewFile,BufRead *.cssp setf turbine 
     "au Filetype html,xml,xsl source ~/.vim/bundle/closetag/scripts/closetag.vim
-" }
+"  }}}
 
-" GUI Settings, colors and fonts {
+" GUI Settings, colors and fonts  {{{
 set background=dark " we plan to use a dark background
 if has("gui_running")
-    " Basics {
+    " Basics  {{{
         "colorscheme metacosm " my color scheme (only works in GUI)
-        set cursorcolumn " highlight the current column
         set columns=180 " perfect size for me
         set guifont=Monaco:h12 " My favorite font
         set guioptions=ce 
@@ -585,19 +618,21 @@ if has("gui_running")
         "              +  use GUI tabs, not console style tabs
         set lines=55 " perfect size for me
         set mousehide " hide the mouse cursor when typing
-    " }
+    "  }}}
 
-    " Font Switching Binds {
+    " Font Switching Binds  {{{
         "map <F8> <ESC>:set guifont=Consolas:h8<CR>
         "map <F9> <ESC>:set guifont=Consolas:h10<CR>
         "map <F10> <ESC>:set guifont=Consolas:h12<CR>
         "map <F11> <ESC>:set guifont=Consolas:h16<CR>
         "map <F12> <ESC>:set guifont=Consolas:h20<CR>
-    " }
+    "  }}}
+else
+    set noesckeys
 endif
-" }
+"  }}}
 
-" Misc. {
+" Misc.  {{{
     " Remove the Windows ^M - when the encodings gets messed up
     noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
@@ -612,4 +647,4 @@ endif
     " JavaScriptLint plugin
     let jslint_command = '~/Downloads/jsl-0.3.0-mac/jsl'
     "let jslint_command = '~/Development/Library/javascriptlint/build/install/jsl'
-" }
+"  }}}
