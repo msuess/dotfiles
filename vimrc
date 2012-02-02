@@ -71,6 +71,8 @@
     Bundle 'scrooloose/syntastic'
 
     Bundle 'YankRing.vim'
+
+    Bundle 'Align'
 "  }}}
 
 " Basics  {{{
@@ -98,15 +100,15 @@
 "  }}}
 
 " General  {{{
-    filetype plugin indent on " load filetype plugins/indent settings
+    filetype plugin indent on      " load filetype plugins/indent settings
 
-    "set autochdir " always switch to the current file directory
+    " set autochdir                " always switch to the current file directory
 
     set backspace=indent,eol,start " make backspace a more flexible
 
-    set backup " make backup files
-    set backupdir=~/.vim/.backup " where to put backup files
-    set directory=~/.vim/.tmp " directory to place swap files in
+    set backup                     " make backup files
+    set backupdir=~/.vim/.backup   " where to put backup files
+    set directory=~/.vim/.tmp      " directory to place swap files in
 
     " Enable persistent undo history (needs vim >=7.3)
     try
@@ -117,14 +119,14 @@
 
     "set clipboard+=unnamed " share windows clipboard
 
-    set fileformats=unix,dos,mac " support all three, in this order
-    set hidden " you can change buffers without saving
+    set fileformats=unix,dos,mac   " support all three, in this order
+    set hidden                     " you can change buffers without saving
 
     " (XXX: #VIM/tpope warns the line below could break things)
     "set iskeyword+=_,$,@,%,# " none of these are word dividers
 
-    set mouse=a " use mouse everywhere
-    set noerrorbells " don't make noise
+    set mouse=a                     " use mouse everywhere
+    set noerrorbells                " don't make noise
     set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
     "             | | | | | | | | |
     "             | | | | | | | | +-- "]" Insert and Replace
@@ -145,33 +147,55 @@
 "  }}}
 
 " Vim UI  {{{
-    colorscheme solarized " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
-    set cursorline " highlight current line
-    set cursorcolumn " highlight the current column
-    set incsearch " BUT do highlight as you type you
-                   " search phrase
-    set laststatus=2 " always show the status line
-    set lazyredraw " do not redraw while running macros
-    "set linespace=0 " don't insert any extra pixel lines
-                     " betweens rows
-    set list " we do what to show tabs, to ensure we get them
-              " out of my files
+    colorscheme solarized        " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
+
+    set cursorline               " highlight current line
+
+    set cursorcolumn             " highlight the current column
+
+    set incsearch                " BUT do highlight as you type you
+                                 " search phrase
+
+    set laststatus=2             " always show the status line
+
+    set lazyredraw               " do not redraw while running macros
+
+    " set linespace=0            " don't insert any extra pixel lines
+                                 " betweens rows
+
+    set list                     " we do what to show tabs, to ensure we get them
+                                 " out of my files
+
     set listchars=tab:>-,trail:- " show tabs and trailing
-    set matchtime=1 " how many tenths of a second to blink
-                     " matching brackets for
-    set nohlsearch " do not highlight searched for phrases
-    set nostartofline " leave my cursor where it was
-    set novisualbell " don't blink
-    set number " turn on line numbers
-    "set numberwidth=5 " We are good up to 99999 lines
-    set report=0 " tell us when anything is changed via :...
-    set ruler " Always show current positions along the bottom
-    set scrolloff=10 " Keep 10 lines (top/bottom) for scope
-    set shortmess=aOstT " shortens messages to avoid
-                         " 'press a key' prompt
-    set showcmd " show the command being typed
-    set showmatch " show matching brackets
-    set sidescrolloff=10 " Keep 5 lines at the size
+
+    set matchtime=1              " how many tenths of a second to blink
+                                 " matching brackets for
+
+    set nohlsearch               " do not highlight searched for phrases
+
+    set nostartofline            " leave my cursor where it was
+
+    set novisualbell             " don't blink
+
+    set number                   " turn on line numbers
+
+    " set numberwidth=5          " We are good up to 99999 lines
+
+    set report=0                 " tell us when anything is changed via :...
+
+    set ruler                    " Always show current positions along the bottom
+
+    set scrolloff=10             " Keep 10 lines (top/bottom) for scope
+
+    set shortmess=aOstT          " shortens messages to avoid
+                                 " 'press a key' prompt
+
+    set showcmd                  " show the command being typed
+
+    set showmatch                " show matching brackets
+
+    set sidescrolloff=10         " Keep 5 lines at the size
+
     set statusline=%F%{PasteModeFlag()}%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]%=%{getcwd()}
     "              | |                 | | | |  |   |      |  |     |    |    | |
     "              | |                 | | | |  |   |      |  |     |    |    | + workdir
@@ -422,9 +446,6 @@
         setl fen
     endfunction
 
-    "let tlist_javascript_settings = 'JavaScript;m:module;r:role;c:class;f:function'
-    "let tlist_javascript_settings = 'JavaScript;m:module;r:role;c:class'
-
     let g:tagbar_type_javascript = {
         \ 'ctagsbin' : '/usr/local/bin/jsctags'
     \ }
@@ -467,10 +488,10 @@
                                " inside strings
 
     " neocomplcache Settings  {{{
-        let g:neocomplcache_enable_at_startup = 1 " enable at startup
-        let g:neocomplcache_enable_smart_case = 1 " smartcase completion
+        let g:neocomplcache_enable_at_startup = 1            " enable at startup
+        let g:neocomplcache_enable_smart_case = 1            " smartcase completion
         let g:neocomplcache_enable_camel_case_completion = 1 " camelcase completion
-        let g:neocomplcache_enable_underbar_completion = 1 " underscore completion
+        let g:neocomplcache_enable_underbar_completion = 1   " underscore completion
 
         " Define keyword.
         if !exists('g:neocomplcache_keyword_patterns')
@@ -518,18 +539,18 @@
     "  }}}
 
     " TagList Settings  {{{
-        let Tlist_Auto_Open=0 " let the tag list open automatically
-        let Tlist_Compact_Format = 1 " show small menu
-        let Tlist_Ctags_Cmd = 'ctags' " location of ctags
-        let Tlist_Enable_Fold_Column = 0 " do show folding tree
-        let Tlist_Exist_OnlyWindow = 1 " if you are the last, kill
-                                        " yourself
+        let Tlist_Auto_Open=0              " let the tag list open automatically
+        let Tlist_Compact_Format = 1       " show small menu
+        let Tlist_Ctags_Cmd = 'ctags'      " location of ctags
+        let Tlist_Enable_Fold_Column = 0   " do show folding tree
+        let Tlist_Exist_OnlyWindow = 1     " if you are the last, kill
+                                           " yourself
         let Tlist_File_Fold_Auto_Close = 0 " fold closed other trees
-        let Tlist_Sort_Type = "name" " order by
-        let Tlist_Use_Right_Window = 1 " split to the right side
-                                        " of the screen
-        let Tlist_WinWidth = 40 " 40 cols wide, so i can (almost always)
-                                 " read my functions
+        let Tlist_Sort_Type = 'name'       " order by
+        let Tlist_Use_Right_Window = 1     " split to the right side
+                                           " of the screen
+        let Tlist_WinWidth = 40            " 40 cols wide, so i can (almost always)
+                                           " read my functions
         " Language Specifics  {{{
             " just functions and classes please
             let tlist_aspjscript_settings = 'asp;f:function;c:class' 
