@@ -72,7 +72,11 @@
 
     Bundle 'YankRing.vim'
 
-    Bundle 'Align'
+    Bundle 'godlygeek/tabular'
+
+    "Bundle 'IndentAnything'
+    "Bundle 'Javascript-Indentation'
+
 "  }}}
 
 " Basics  {{{
@@ -125,8 +129,13 @@
     " (XXX: #VIM/tpope warns the line below could break things)
     "set iskeyword+=_,$,@,%,# " none of these are word dividers
 
-    set mouse=a                     " use mouse everywhere
-    set noerrorbells                " don't make noise
+    set mouse=a         " use mouse everywhere
+    set ttymouse=xterm2 " Enable window-split drag-to-resize and live visual selection
+
+    set ttyfast         " rendering performance boost
+
+    set noerrorbells    " don't make noise
+
     set whichwrap=b,s,h,l,<,>,~,[,] " everything wraps
     "             | | | | | | | | |
     "             | | | | | | | | +-- "]" Insert and Replace
@@ -512,7 +521,7 @@
 
         " Recommended key-mappings.
         " <CR>: close popup and save indent.
-        inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+        "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
         " <TAB>: completion.
         inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
         " <C-h>, <BS>: close popup and delete backword char.
@@ -600,6 +609,19 @@
     " Coffeescript  {{{
         au FileType coffee call SetShortTabStops()
     "  }}}
+
+    " When editing a file, always jump to the last known cursor position.
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
+
+    " Tab completion when browsing files.
+    set wildignore=*.o,*.r,*.so,*.tar,*.tgz
+    set wildmode=list:longest,full
+
+    " automatically reload vimrc on saving
+    autocmd BufWritePost ~/.vim/vimrc source $MYVIMRC
 "  }}}
 
 " GUI Settings, colors and fonts  {{{
@@ -644,4 +666,17 @@ endif
     " JavaScriptLint plugin
     let jslint_command = '~/Downloads/jsl-0.3.0-mac/jsl'
     "let jslint_command = '~/Development/Library/javascriptlint/build/install/jsl'
+
+    inoremap <silent> = =<Esc>:call <SID>ealign()<CR>a
+    function! s:ealign()
+        let p = '^.*=.*$'
+        if exists(':Tabularize') && getline('.') =~# '^.*=' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+            let column = strlen(substitute(getline('.')[0:col('.')],'[^=]','','g'))
+            let position = strlen(matchstr(getline('.')[0:col('.')],'.*=\s*\zs.*'))
+            Tabularize/=/l1
+            normal! 0
+            call search(repeat('[^=]*=',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+        endif
+    endfunction
+
 "  }}}
