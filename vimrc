@@ -64,8 +64,6 @@
 
     Bundle 'kchmck/vim-coffee-script'
 
-    Bundle 'xaviershay/tslime.vim'
-
     Bundle 'Lokaltog/vim-powerline'
 
     Bundle 'scrooloose/syntastic'
@@ -77,6 +75,13 @@
     "Bundle 'IndentAnything'
     "Bundle 'Javascript-Indentation'
 
+    "Bundle 'slimv.vim'
+
+    Bundle 'VimClojure'
+
+    Bundle 'xaviershay/tslime.vim'
+
+    set rtp+=~/.vim/local/
 "  }}}
 
 " Basics  {{{
@@ -583,6 +588,15 @@
         let g:yankring_history_dir = '~/.vim/.yankring'
         map <leader>y :YRShow<cr>
     "  }}}
+
+    " VimClojure settings {{{
+    let vimclojure#HighlightBuiltins   = 1
+    let vimclojure#HighlightContrib    = 1
+    let vimclojure#DynamicHighlighting = 1
+    let vimclojure#ParenRainbow        = 1
+    let vimclojure#WantNailgun         = 1
+    let vimclojure#NailgunClient       = '/usr/local/bin/ng'
+    " }}}
 
 "  }}}
 
