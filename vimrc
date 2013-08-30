@@ -34,7 +34,7 @@
 
     Bundle 'git://git.wincent.com/command-t.git'
 
-    Bundle 'joestelmach/javaScriptLint.vim'
+    "Bundle 'joestelmach/javaScriptLint.vim'
 
     Bundle 'Shougo/neocomplcache'
 
@@ -66,7 +66,7 @@
 
     Bundle 'Lokaltog/vim-powerline'
 
-    Bundle 'scrooloose/syntastic'
+    "Bundle 'scrooloose/syntastic'
 
     Bundle 'YankRing.vim'
 
@@ -80,6 +80,12 @@
     Bundle 'VimClojure'
 
     Bundle 'xaviershay/tslime.vim'
+
+    Bundle 'wavded/vim-stylus'
+
+    Bundle 'Rip-Rip/clang_complete'
+
+    Bundle 'osyo-manga/neocomplcache-clang_complete'
 
     set rtp+=~/.vim/local/
 "  }}}
@@ -463,8 +469,6 @@
     let g:tagbar_type_javascript = {
         \ 'ctagsbin' : '/usr/local/bin/jsctags'
     \ }
-
-    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 "  }}}
 
 " php Section  {{{
@@ -500,6 +504,8 @@
     let b:match_ignorecase = 1 " case is stupid
     let perl_extended_vars = 1 " highlight advanced perl vars
                                " inside strings
+
+    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
     " neocomplcache Settings  {{{
         let g:neocomplcache_enable_at_startup = 1            " enable at startup
@@ -550,6 +556,10 @@
         let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
         "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
         let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+
+        " neocomplcache & clang_complete
+        let g:neocomplcache_force_overwrite_completefunc=1
+        let g:clang_complete_auto=1
     "  }}}
 
     " TagList Settings  {{{
@@ -579,6 +589,11 @@
 
     " AutoPairs Settings  {{{
         let g:AutoPairsCenterLine = 0
+        let g:AutoPairsFlyMode = 1
+        let g:AutoPairsShortcutBackInsert = '<M-b>'
+        if MySys() == "mac"
+            let g:AutoPairsShortcutBackInsert = '<D-ö>'
+        endif
     "  }}}
 
     " BufExplorer mappings
@@ -590,12 +605,12 @@
     "  }}}
 
     " VimClojure settings {{{
-    let vimclojure#HighlightBuiltins   = 1
-    let vimclojure#HighlightContrib    = 1
-    let vimclojure#DynamicHighlighting = 1
-    let vimclojure#ParenRainbow        = 1
-    let vimclojure#WantNailgun         = 1
-    let vimclojure#NailgunClient       = '/usr/local/bin/ng'
+        let vimclojure#HighlightBuiltins   = 1
+        let vimclojure#HighlightContrib    = 1
+        let vimclojure#DynamicHighlighting = 1
+        let vimclojure#ParenRainbow        = 1
+        let vimclojure#WantNailgun         = 1
+        let vimclojure#NailgunClient       = '/usr/local/bin/ng'
     " }}}
 
 "  }}}
@@ -622,6 +637,9 @@
     "  }}}
     " Coffeescript  {{{
         au FileType coffee call SetShortTabStops()
+    "  }}}
+    " jade  {{{
+        au FileType jade call SetShortTabStops()
     "  }}}
 
     " When editing a file, always jump to the last known cursor position.
@@ -661,7 +679,8 @@ if has("gui_running")
         "map <F12> <ESC>:set guifont=Consolas:h20<CR>
     "  }}}
 else
-    set noesckeys
+    set timeoutlen=500
+    set ttimeoutlen=0
 endif
 "  }}}
 
@@ -681,7 +700,7 @@ endif
     let jslint_command = '~/Downloads/jsl-0.3.0-mac/jsl'
     "let jslint_command = '~/Development/Library/javascriptlint/build/install/jsl'
 
-    inoremap <silent> = =<Esc>:call <SID>ealign()<CR>a
+    "inoremap <silent> = =<Esc>:call <SID>ealign()<CR>a
     function! s:ealign()
         let p = '^.*=.*$'
         if exists(':Tabularize') && getline('.') =~# '^.*=' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
@@ -692,5 +711,8 @@ endif
             call search(repeat('[^=]*=',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
         endif
     endfunction
+
+    " create ctags for current directory
+    map <F8> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "  }}}
