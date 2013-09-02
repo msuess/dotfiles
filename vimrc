@@ -1,5 +1,10 @@
 " Modeline and Notes  {{{
-"   vim: set foldmarker={{{,}}} foldlevel=0 spell:
+"   vim: foldmarker={{{,}}}:foldlevel=0:spell
+"
+"   Prerequisites
+"   - vim with +ruby
+"   - ruby installed
+"   - node.js with 'node' and 'npm' in PATH
 "
 "   Plugins referenced:
 "   - NERDTree
@@ -19,9 +24,7 @@
     set encoding=utf8 " just in case ;)
     call vundle#rc()
 
-    " Powerline Settings  {{{
-        let g:Powerline_symbols = 'fancy'
-    "  }}}
+    let g:airline_powerline_fonts=1
 
     " let Vundle manage Vundle
     " required!
@@ -32,11 +35,13 @@
 
     Bundle 'thisivan/vim-bufexplorer'
 
-    Bundle 'git://git.wincent.com/command-t.git'
+    "Bundle 'git://git.wincent.com/command-t.git'
 
-    "Bundle 'joestelmach/javaScriptLint.vim'
+    Bundle 'kien/ctrlp.vim'
 
     Bundle 'Shougo/neocomplcache'
+
+    Bundle 'marijnh/tern_for_vim'
 
     Bundle 'scrooloose/nerdtree'
 
@@ -58,15 +63,17 @@
 
     Bundle 'tpope/vim-rails.git'
 
-    Bundle 'L9'
+    "Bundle 'L9'
 
-    Bundle 'FuzzyFinder'
+    "Bundle 'FuzzyFinder'
 
     Bundle 'kchmck/vim-coffee-script'
 
-    Bundle 'Lokaltog/vim-powerline'
+    Bundle 'bling/vim-airline'
 
-    "Bundle 'scrooloose/syntastic'
+    Bundle 'scrooloose/syntastic'
+
+    Bundle 'scrooloose/nerdcommenter'
 
     Bundle 'YankRing.vim'
 
@@ -86,6 +93,10 @@
     Bundle 'Rip-Rip/clang_complete'
 
     Bundle 'osyo-manga/neocomplcache-clang_complete'
+
+    Bundle 'myusuf3/numbers.vim'
+
+    Bundle 'tsaleh/vim-matchit'
 
     set rtp+=~/.vim/local/
 "  }}}
@@ -167,8 +178,7 @@
 "  }}}
 
 " Vim UI  {{{
-    colorscheme solarized        " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
-
+"
     set cursorline               " highlight current line
 
     set cursorcolumn             " highlight the current column
@@ -452,7 +462,9 @@
 " JavaScript Section  {{{
     au FileType javascript imap <c-l> console.log();<esc>hi
     au FileType javascript call JavaScriptFold()
+    au FileType javascript setl completefunc=tern#Complete
     "au FileType javascript setl nocindent
+    au FileType javascript nmap <buffer> gd :TernDef<cr>
 
     function! JavaScriptFold()
         setl foldmethod=syntax
@@ -460,7 +472,7 @@
         syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 
         function! FoldText()
-            return substitute(getline(v:foldstart), '{.*', '{...}', '')
+            return substitute(getline(v:foldstart), '{.*', '{...}', '') " } this closing curly is for vim's % :)
         endfunction
         setl foldtext=FoldText()
         setl fen
@@ -472,10 +484,32 @@
 "  }}}
 
 " php Section  {{{
-    au FileType php imap <c-e> <?php echo  ?><esc>hhi
-    au FileType php imap <c-p> <?php  ?><esc>hhi
-    au FileType php imap <c-P> <?php<return><return>?><esc>k^i<tab>
+    au FileType php imap <buffer> <c-e> <?php echo  ?><esc>hhi
+    au FileType php imap <buffer> <c-p> <?php  ?><esc>hhi
+    au FileType php imap <buffer> <c-P> <?php<return><return>?><esc>k^i<tab>
 "  }}}
+
+" html Section {{{
+
+    au FileType html iabbrev <buffer> <// </<C-X><C-O>
+
+" }}}
+
+" tern.js Mappings {{{
+
+    let g:tern_show_argument_hints='on_hold'
+    "let g:tern_show_argument_hints='on_move'
+    map <leader>tD      :TernDoc<cr>
+    map <leader>tB      :TernDocBrowse<cr>
+    map <leader>tt      :TernType<cr>
+    map <leader>td      :TernDef<cr>
+    map <leader>tp      :TernDefPreview<cr>
+    map <leader>ts      :TernDefSplit<cr>
+    map <leader>tnd     :TernDefTab<cr>
+    map <leader>tr      :TernRefs<cr>
+    map <leader>tR      :TernRename<cr>
+
+" }}}
 
 " Fugitive Mappings  {{{
     map <leader>gc :Gcommit<cr>
@@ -491,6 +525,12 @@
     noremap <leader>o :CommandT<cr>
     "noremap <leader>y :CommandTFlush<cr>
 "  }}}
+
+" Tabular mappings {{{
+
+    map <leader>a :Tabularize /
+
+" }}}
 
 " Cope Mappings  {{{
     map <leader>cc :botright cope<cr>
@@ -577,13 +617,13 @@
                                            " read my functions
         " Language Specifics  {{{
             " just functions and classes please
-            let tlist_aspjscript_settings = 'asp;f:function;c:class' 
+            let tlist_aspjscript_settings = 'asp;f:function;c:class'
             " just functions and subs please
-            let tlist_aspvbs_settings = 'asp;f:function;s:sub' 
+            let tlist_aspvbs_settings = 'asp;f:function;s:sub'
             " don't show variables in freaking php
-            let tlist_php_settings = 'php;c:class;d:constant;f:function' 
+            let tlist_php_settings = 'php;c:class;d:constant;f:function'
             " just functions and classes please
-            let tlist_vb_settings = 'asp;f:function;c:class' 
+            let tlist_vb_settings = 'asp;f:function;c:class'
         "  }}}
     "  }}}
 
@@ -657,13 +697,21 @@
 "  }}}
 
 " GUI Settings, colors and fonts  {{{
-set background=dark " we plan to use a dark background
+
+set background=dark           " we plan to use a dark background
+" solarized options
+"let g:solarized_contrast="normal"
+"let g:solarized_termtrans=0
+let g:solarized_bold=0
+"let g:solarized_termcolors=256
+"set t_Co=256
+
 if has("gui_running")
     " Basics  {{{
         "colorscheme metacosm " my color scheme (only works in GUI)
         set columns=180 " perfect size for me
         set guifont=Monaco:h12 " My favorite font
-        set guioptions=ce 
+        set guioptions=ce
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
         "              +  use GUI tabs, not console style tabs
@@ -682,23 +730,21 @@ else
     set timeoutlen=500
     set ttimeoutlen=0
 endif
+
+silent! colorscheme solarized " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
 "  }}}
 
 " Misc.  {{{
     " Remove the Windows ^M - when the encodings gets messed up
     noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-    "Quickly open a buffer for scripbble
+    "Quickly open a buffer for scribble
     map <leader>q :e ~/buffer<cr>
     au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
 
     map <leader>pp :setlocal paste!<cr>
 
-    map <leader>bb :cd ..<cr>
-
-    " JavaScriptLint plugin
-    let jslint_command = '~/Downloads/jsl-0.3.0-mac/jsl'
-    "let jslint_command = '~/Development/Library/javascriptlint/build/install/jsl'
+    "map <leader>bb :cd ..<cr>
 
     "inoremap <silent> = =<Esc>:call <SID>ealign()<CR>a
     function! s:ealign()
@@ -714,5 +760,9 @@ endif
 
     " create ctags for current directory
     map <F8> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+    " activate modeline
+    set modelines=1
+    set modeline
 
 "  }}}
