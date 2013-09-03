@@ -131,9 +131,11 @@
     " additional text objects
     Bundle 'vim-scripts/argtextobj.vim'
     Bundle 'michaeljsmith/vim-indent-object'
-
+    " required for rubyblock
     Bundle 'kana/vim-textobj-user'
     Bundle 'nelstrom/vim-textobj-rubyblock'
+
+    Bundle 'SirVer/ultisnips'
 
     set rtp+=~/.vim/local/
 "  }}}
@@ -724,6 +726,12 @@
         let vimclojure#ParenRainbow        = 1
         let vimclojure#WantNailgun         = 1
         let vimclojure#NailgunClient       = '/usr/local/bin/ng'
+    " }}}
+
+    " UltiSnips Settings {{{
+        let g:UltiSnipsExpandTrigger="<c-j>"
+        let g:UltiSnipsJumpForwardTrigger="<c-j>"
+        let g:UltiSnipsJumpBackwardTrigger="<c-k>"
     " }}}
 
 "  }}}
