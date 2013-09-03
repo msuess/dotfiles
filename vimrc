@@ -330,11 +330,10 @@
     noremap <space> <C-f>
 
     " Make Arrow Keys Useful Again  {{{
-        "map <down> <ESC>:bn<RETURN>
-        "map <up> <ESC>:bp<RETURN>
+        map <down> <ESC>:bn<RETURN>
+        map <up> <ESC>:bp<RETURN>
 
         map <left> <ESC>:NERDTreeToggle<RETURN>
-        " map <right> <ESC>:Tlist<RETURN>
         map <right> <ESC>:TagbarToggle<RETURN>
     "  }}}
 
@@ -452,6 +451,12 @@
         exe "normal `z"
     endfunc
     autocmd BufWrite *.py :call DeleteTrailingWS()
+
+    " indented block paste (like ]p, but works also when preceded by an empty
+    " line)
+    nmap ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>o<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
+    nmap Ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>O<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
+
 "  }}}
 
 " Spell Checking  {{{
@@ -499,6 +504,10 @@
 
     au FileType html iabbrev <buffer> <// </<C-X><C-O>
 
+" }}}
+
+" viml Section {{{
+    au FileType vim nmap <buffer> <leader>h "zyw:exe "h ".@z.""<CR>"
 " }}}
 
 " tern.js Mappings {{{
@@ -690,6 +699,9 @@
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
         \ endif
+
+    " Rebalance windows on resize
+    autocmd VimResized * :wincmd =
 
     " Tab completion when browsing files.
     set wildignore=*.o,*.r,*.so,*.tar,*.tgz
