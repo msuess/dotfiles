@@ -632,7 +632,7 @@
 
     " AutoPairs Settings  {{{
         let g:AutoPairsCenterLine = 0
-        let g:AutoPairsFlyMode = 1
+        let g:AutoPairsFlyMode = 0
         let g:AutoPairsShortcutBackInsert = '<M-b>'
         if MySys() == "mac"
             let g:AutoPairsShortcutBackInsert = '<D-ö>'
