@@ -104,6 +104,8 @@
 
     Bundle 'tsaleh/vim-matchit'
 
+    Bundle 'sjl/gundo.vim'
+
     set rtp+=~/.vim/local/
 "  }}}
 
@@ -334,7 +336,8 @@
         map <up> <ESC>:bp<RETURN>
 
         map <left> <ESC>:NERDTreeToggle<RETURN>
-        map <right> <ESC>:TagbarToggle<RETURN>
+        "map <right> <ESC>:TagbarToggle<RETURN>
+        map <right> <ESC>:GundoToggle<RETURN>
     "  }}}
 
     " Tab configuration
@@ -558,6 +561,10 @@
                                " inside strings
 
     let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
+    " gundo Settings {{{
+        let g:gundo_right = 1  " show gundo tree on the right
+    " }}}
 
     " neocomplcache Settings  {{{
         let g:neocomplcache_enable_at_startup = 1            " enable at startup
