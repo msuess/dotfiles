@@ -202,7 +202,7 @@
     set list                     " we do what to show tabs, to ensure we get them
                                  " out of my files
 
-    set listchars=tab:>-,trail:- " show tabs and trailing
+    set listchars=tab:>-,trail:-,extends:…,precedes:… " show tabs and trailing
 
     set matchtime=1              " how many tenths of a second to blink
                                  " matching brackets for
