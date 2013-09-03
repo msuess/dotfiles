@@ -1,5 +1,7 @@
 #!/bin/sh
 
+IS_DARWIN=$([ $(uname) = 'Darwin' ])
+
 # Check if a command exists or abort
 checkExe()
 {
@@ -12,11 +14,13 @@ checkExe git
 checkExe node
 checkExe npm
 
+if $IS_DARWIN; then
+    checkExe brew
+fi
+
 # require >= ViM 7.3
 MIN_VIM_MAJOR=7
 MIN_VIM_MINOR=3
-
-IS_DARWIN=$([ $(uname) = 'Darwin' ])
 
 VIM_VERSION=$(vim --version | head -1 | sed -e 's/ (.*)$//'| sed -e 's/^[^0-9]*\([0-9.]*\)$/\1/')
 VIM_MAJOR=$(echo $VIM_VERSION | cut -d. -f1)
@@ -67,7 +71,18 @@ echo Finalizing Bundles
 cd ~/.vim/bundle/tern_for_vim/
 npm install
 
+# YouCompleteMe
+cd ~/.vim/bundle/YouCompleteMe
+./install.sh --clang-completer --omnisharp-completer
+
 cd $OLDDIR
 
-echo
-echo For maximum grep and CtrlP performance, install the_silver_searcher
+command -v jshint >/dev/null 2>&1 || npm install -g jshint
+
+if $IS_DARWIN; then
+    echo Installing the_silver_searcher via brew
+    command -v ag >/dev/null 2>&1 || brew install the_silver_searcher
+else
+    echo
+    echo For maximum grep and CtrlP performance, install the_silver_searcher
+fi

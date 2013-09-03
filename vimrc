@@ -36,6 +36,8 @@
             " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
             let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
         endif
+
+        "let g:javascript_conceal=1
     " }}}
 
     call vundle#rc()
@@ -52,7 +54,8 @@
 
     Bundle 'kien/ctrlp.vim'
 
-    Bundle 'Shougo/neocomplcache'
+    "Bundle 'Shougo/neocomplcache'
+    Bundle 'Valloric/YouCompleteMe'
 
     Bundle 'marijnh/tern_for_vim'
 
@@ -68,7 +71,8 @@
 
     Bundle 'chrisbra/SudoEdit.vim'
 
-    Bundle 'jiangmiao/auto-pairs'
+    "Bundle 'jiangmiao/auto-pairs'
+    Bundle 'Raimondi/delimitMate'
 
     Bundle 'tpope/vim-fugitive'
 
@@ -90,21 +94,45 @@
 
     Bundle 'wavded/vim-stylus'
 
+    " slime for vim
     "Bundle 'slimv.vim'
 
+    " clojure support
     "Bundle 'VimClojure'
 
+    " slime for vim
     "Bundle 'xaviershay/tslime.vim'
 
+    " c completion via clang
     "Bundle 'Rip-Rip/clang_complete'
 
+    " clang neocomplcache hook
     "Bundle 'osyo-manga/neocomplcache-clang_complete'
 
+    " relative line numbers in normal mode
     Bundle 'myusuf3/numbers.vim'
 
+    " % works with tags & more
     Bundle 'tsaleh/vim-matchit'
 
+    " graphical undo
     Bundle 'sjl/gundo.vim'
+
+    " enhanced js syntax highlighting
+    Bundle 'jelera/vim-javascript-syntax'
+
+    " more enhanced js syntax highlihgting and fix weirdo indent when embedded
+    " in html
+    Bundle 'pangloss/vim-javascript'
+
+    " looks for .lvimrc in the directory parents
+    Bundle 'embear/vim-localvimrc'
+
+    " additional text objects
+    Bundle 'vim-scripts/argtextobj.vim'
+    Bundle 'michaeljsmith/vim-indent-object'
+    " broken
+    "Bundle 'nelstrom/vim-textobj-rubyblock'
 
     set rtp+=~/.vim/local/
 "  }}}
@@ -264,6 +292,7 @@
 
 " Text Formatting/Layout  {{{
     "set completeopt=    " don't use a pop up menu for completions
+    set completeopt+=preview " show doc preview in preview window on completion
     set expandtab        " no real tabs please!
     set formatoptions=rq " Automatically insert comment leader on return,
                          " and let gq format comments
@@ -475,22 +504,24 @@
 
 " JavaScript Section  {{{
     au FileType javascript imap <c-l> console.log();<esc>hi
-    au FileType javascript call JavaScriptFold()
+    "au FileType javascript call JavaScriptFold()
     au FileType javascript setl completefunc=tern#Complete
     "au FileType javascript setl nocindent
     au FileType javascript nmap <buffer> gd :TernDef<cr>
 
-    function! JavaScriptFold()
-        setl foldmethod=syntax
-        setl foldlevelstart=100
-        syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+    au FileType javascript nmap <buffer> <leader>; A;<cr>
 
-        function! FoldText()
-            return substitute(getline(v:foldstart), '{.*', '{...}', '') " } this closing curly is for vim's % :)
-        endfunction
-        setl foldtext=FoldText()
-        setl fen
-    endfunction
+    "function! JavaScriptFold()
+        "setl foldmethod=syntax
+        "setl foldlevelstart=100
+        "syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+
+        "function! FoldText()
+            "return substitute(getline(v:foldstart), '{.*', '{...}', '') " } this closing curly is for vim's % :)
+        "endfunction
+        "setl foldtext=FoldText()
+        "setl fen
+    "endfunction
 
     let g:tagbar_type_javascript = {
         \ 'ctagsbin' : '/usr/local/bin/jsctags'
@@ -566,60 +597,77 @@
         let g:gundo_right = 1  " show gundo tree on the right
     " }}}
 
-    " neocomplcache Settings  {{{
-        let g:neocomplcache_enable_at_startup = 1            " enable at startup
-        let g:neocomplcache_enable_smart_case = 1            " smartcase completion
-        let g:neocomplcache_enable_camel_case_completion = 1 " camelcase completion
-        let g:neocomplcache_enable_underbar_completion = 1   " underscore completion
+    "au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    "au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
-        " Define keyword.
-        if !exists('g:neocomplcache_keyword_patterns')
-            let g:neocomplcache_keyword_patterns = {}
-        endif
-        let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+    let g:ycm_semantic_triggers =  {
+    \   'c' : ['->', '.'],
+    \   'objc' : ['->', '.'],
+    \   'ocaml' : ['.', '#'],
+    \   'cpp,objcpp' : ['->', '.', '::'],
+    \   'perl' : ['->'],
+    \   'php' : ['->', '::'],
+    \   'cs,java,javascript,d,vim,python,perl6,scala,vb,elixir,go' : ['.'],
+    \   'ruby' : ['.', '::'],
+    \   'lua' : ['.', ':'],
+    \   'erlang' : [':'],
+    \   'html,xml' : ['<', '/', ' '],
+    \ }
 
-        imap <C-k>              <Plug>(neocomplcache_snippets_expand)
-        smap <C-k>              <Plug>(neocomplcache_snippets_expand)
+    "" neocomplcache Settings  {{{
+        "let g:neocomplcache_enable_at_startup = 1            " enable at startup
+        "let g:neocomplcache_enable_smart_case = 1            " smartcase completion
+        "let g:neocomplcache_enable_camel_case_completion = 1 " camelcase completion
+        "let g:neocomplcache_enable_underbar_completion = 1   " underscore completion
 
-        inoremap <expr><C-g>    neocomplcache#undo_completion()
-        inoremap <expr><C-l>    neocomplcache#complete_common_string()
+        "" Define keyword.
+        "if !exists('g:neocomplcache_keyword_patterns')
+            "let g:neocomplcache_keyword_patterns = {}
+        "endif
+        "let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+        "imap <C-k>              <Plug>(neocomplcache_snippets_expand)
+        "smap <C-k>              <Plug>(neocomplcache_snippets_expand)
+
+        "inoremap <expr><C-g>    neocomplcache#undo_completion()
+        "inoremap <expr><C-l>    neocomplcache#complete_common_string()
 
 
-        " SuperTab like snippets behavior.
-        "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-        imap <expr><Right> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Right>"
+        "" SuperTab like snippets behavior.
+        ""imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+        "imap <expr><Right> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Right>"
 
-        " Recommended key-mappings.
-        " <CR>: close popup and save indent.
-        "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-        " <TAB>: completion.
-        inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-        " <C-h>, <BS>: close popup and delete backword char.
-        inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-        inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-        inoremap <expr><C-y>  neocomplcache#close_popup()
-        inoremap <expr><C-e>  neocomplcache#cancel_popup()
+        "" Recommended key-mappings.
+        "" <CR>: close popup and save indent.
+        ""inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+        "" <TAB>: completion.
+        "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+        "" <C-h>, <BS>: close popup and delete backword char.
+        "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+        "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+        "inoremap <expr><C-y>  neocomplcache#close_popup()
+        "inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-        " Enable omni completion.
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+        "" Enable omni completion.
+        "autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        "autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-        " Enable heavy omni completion.
-        if !exists('g:neocomplcache_omni_patterns')
-                let g:neocomplcache_omni_patterns = {}
-        endif
+        "" Enable heavy omni completion.
+        "if !exists('g:neocomplcache_omni_patterns')
+                "let g:neocomplcache_omni_patterns = {}
+        "endif
 
-        let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-        "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-        let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+        "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+        ""autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+        "let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
-        " neocomplcache & clang_complete
-        let g:neocomplcache_force_overwrite_completefunc=1
-        let g:clang_complete_auto=1
-    "  }}}
+        "" neocomplcache & clang_complete
+        "let g:neocomplcache_force_overwrite_completefunc=1
+        "let g:clang_complete_auto=1
+    ""  }}}
 
     " TagList Settings  {{{
         let Tlist_Auto_Open=0              " let the tag list open automatically
@@ -654,6 +702,11 @@
             let g:AutoPairsShortcutBackInsert = '<D-ö>'
         endif
     "  }}}
+
+    " DelimitMate Settings {{{
+        let delimitMate_expand_cr=1
+        let delimitMate_expand_space=1
+    " }}}
 
     " BufExplorer mappings
     map <leader>b :BufExplorer<cr>
@@ -732,7 +785,7 @@ if has("gui_running")
     " Basics  {{{
         "colorscheme metacosm " my color scheme (only works in GUI)
         set columns=180 " perfect size for me
-        set guifont=Monaco:h12 " My favorite font
+        set guifont=Anonymice_Powerline:h14 " My favorite font
         set guioptions=ce
         "              ||
         "              |+-- use simple dialogs rather than pop-ups
