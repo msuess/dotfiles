@@ -131,8 +131,9 @@
     " additional text objects
     Bundle 'vim-scripts/argtextobj.vim'
     Bundle 'michaeljsmith/vim-indent-object'
-    " broken
-    "Bundle 'nelstrom/vim-textobj-rubyblock'
+
+    Bundle 'kana/vim-textobj-user'
+    Bundle 'nelstrom/vim-textobj-rubyblock'
 
     set rtp+=~/.vim/local/
 "  }}}
