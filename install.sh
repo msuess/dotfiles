@@ -9,7 +9,6 @@ checkExe()
 checkExe vim    # duh
 checkExe make
 checkExe git
-checkExe ruby
 checkExe node
 checkExe npm
 
@@ -64,13 +63,11 @@ vim +BundleInstall +qall
 
 echo Finalizing Bundles
 
-# Command-T C Compilation
-cd ~/.vim/bundle/command-t/ruby/command-t/
-ruby extconf.rb
-make
-
 # tern.js installation
 cd ~/.vim/bundle/tern_for_vim/
 npm install
 
 cd $OLDDIR
+
+echo
+echo For maximum grep and CtrlP performance, install the_silver_searcher

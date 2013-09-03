@@ -22,9 +22,24 @@
     set rtp+=~/.vim/bundle/vundle/
 
     set encoding=utf8 " just in case ;)
+
+    " Globals for plugins {{{
+        let g:airline_powerline_fonts=1
+
+        " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+        if executable('ag')
+            let g:ackprg = 'ag --nogroup --column'
+
+            " Use Ag over Grep
+            set grepprg=ag\ --nogroup\ --nocolor
+
+            " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+            let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+        endif
+    " }}}
+
     call vundle#rc()
 
-    let g:airline_powerline_fonts=1
 
     " let Vundle manage Vundle
     " required!
@@ -34,8 +49,6 @@
     Bundle 'altercation/vim-colors-solarized'
 
     Bundle 'thisivan/vim-bufexplorer'
-
-    "Bundle 'git://git.wincent.com/command-t.git'
 
     Bundle 'kien/ctrlp.vim'
 
@@ -63,10 +76,6 @@
 
     Bundle 'tpope/vim-rails.git'
 
-    "Bundle 'L9'
-
-    "Bundle 'FuzzyFinder'
-
     Bundle 'kchmck/vim-coffee-script'
 
     Bundle 'bling/vim-airline'
@@ -79,20 +88,17 @@
 
     Bundle 'godlygeek/tabular'
 
-    "Bundle 'IndentAnything'
-    "Bundle 'Javascript-Indentation'
+    Bundle 'wavded/vim-stylus'
 
     "Bundle 'slimv.vim'
 
-    Bundle 'VimClojure'
+    "Bundle 'VimClojure'
 
-    Bundle 'xaviershay/tslime.vim'
+    "Bundle 'xaviershay/tslime.vim'
 
-    Bundle 'wavded/vim-stylus'
+    "Bundle 'Rip-Rip/clang_complete'
 
-    Bundle 'Rip-Rip/clang_complete'
-
-    Bundle 'osyo-manga/neocomplcache-clang_complete'
+    "Bundle 'osyo-manga/neocomplcache-clang_complete'
 
     Bundle 'myusuf3/numbers.vim'
 
@@ -519,11 +525,8 @@
     map <leader>gs :Gstatus<cr>
 "  }}}
 
-" Command-T Mappings  {{{
-    let g:CommandTMaxHeight = 15
-    set wildignore+=*.o,*.obj,.git,*.pyc
-    noremap <leader>o :CommandT<cr>
-    "noremap <leader>y :CommandTFlush<cr>
+" CtrlP Mappings  {{{
+    noremap <leader>o :CtrlP<cr>
 "  }}}
 
 " Tabular mappings {{{
