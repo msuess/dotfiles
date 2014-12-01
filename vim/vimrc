@@ -14,6 +14,7 @@
 "
 "  }}}
 
+
 " Vundle  {{{
 
     filetype off
@@ -24,7 +25,7 @@
     set encoding=utf8 " just in case ;)
 
     " Globals for plugins {{{
-        let g:airline_powerline_fonts=1
+        let g:airline_powerline_fonts=0
 
         " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
         if executable('ag')
@@ -48,14 +49,21 @@
     Bundle "gmarik/vundle"
 
     " my bundles
+
+    " colors
     Bundle 'altercation/vim-colors-solarized'
+    Bundle 'nanotech/jellybeans.vim'
+    Bundle 'w0ng/vim-hybrid'
 
     Bundle 'thisivan/vim-bufexplorer'
 
     Bundle 'kien/ctrlp.vim'
 
     "Bundle 'Shougo/neocomplcache'
-    Bundle 'Valloric/YouCompleteMe'
+    Bundle 'Shougo/neocomplete'
+    "Bundle 'Valloric/YouCompleteMe'
+
+    Bundle 'derekwyatt/vim-scala'
 
     Bundle 'marijnh/tern_for_vim'
 
@@ -99,6 +107,14 @@
 
     " clojure support
     "Bundle 'VimClojure'
+    Bundle 'guns/vim-clojure-static'
+    Bundle 'guns/vim-sexp'
+    Bundle 'tpope/vim-sexp-mappings-for-regular-people'
+    Bundle 'tpope/vim-fireplace'
+    Bundle 'guns/vim-clojure-highlight'
+    "Bundle 'kien/rainbow_parentheses.vim'
+    Bundle 'oblitum/rainbow'
+    Bundle 'christoomey/vim-tmux-navigator'
 
     " slime for vim
     "Bundle 'xaviershay/tslime.vim'
@@ -113,7 +129,7 @@
     Bundle 'myusuf3/numbers.vim'
 
     " % works with tags & more
-    Bundle 'tsaleh/vim-matchit'
+    "Bundle 'tsaleh/vim-matchit'
 
     " graphical undo
     Bundle 'sjl/gundo.vim'
@@ -137,8 +153,11 @@
 
     Bundle 'SirVer/ultisnips'
 
+    Bundle 'ap/vim-css-color'
+
     set rtp+=~/.vim/local/
 "  }}}
+
 
 " Basics  {{{
 
@@ -163,6 +182,7 @@
 
     syntax on " syntax highlighting on
 "  }}}
+
 
 " General  {{{
     filetype plugin indent on      " load filetype plugins/indent settings
@@ -216,6 +236,7 @@
     set wildmode=list:longest " turn on wild mode huge list
 "  }}}
 
+
 " Vim UI  {{{
 "
     set cursorline               " highlight current line
@@ -265,7 +286,8 @@
 
     set sidescrolloff=10         " Keep 5 lines at the size
 
-    set statusline=%F%{PasteModeFlag()}%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]%=%{getcwd()}
+    " not needed anymore, since I use airline now
+    "set statusline=%F%{PasteModeFlag()}%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]%=%{getcwd()}
     "              | |                 | | | |  |   |      |  |     |    |    | |
     "              | |                 | | | |  |   |      |  |     |    |    | + workdir
     "              | |                 | | | |  |   |      |  |     |    |    + separator
@@ -293,6 +315,7 @@
     endfunction
 "  }}}
 
+
 " Text Formatting/Layout  {{{
     "set completeopt=    " don't use a pop up menu for completions
     set completeopt+=preview " show doc preview in preview window on completion
@@ -319,6 +342,7 @@
                          " set list on
 "  }}}
 
+
 " Folding  {{{
     set foldenable        " Turn on folding
     set foldmarker={,}    " Fold C style code (only use this as default
@@ -336,6 +360,7 @@
                                   " (cleaner than default)
 "  }}}
 
+
 " Mappings  {{{
     " 'D' maps the 'Command'/Apple key
     "imap <D-cr> <cr>
@@ -346,8 +371,10 @@
     " ROT13 - fun
     map <F12> ggVGg?
 
-    let mapleader = ","
+    "let g:mapleader = "\<space>"
     let g:mapleader = ","
+    "let g:maplocalleader = "\<space>"
+    let g:maplocalleader = "ä"
 
     " Fast editing of the .vimrc
     map <leader>e :e! ~/.vim/vimrc<cr>
@@ -357,6 +384,7 @@
     map <leader>fo :foldo<cr>
     map <leader>fO :%foldo<cr>
 "  }}}
+
 
 " Moving around, tabs and buffers  {{{
     " space / shift-space scroll in normal mode
@@ -384,6 +412,7 @@
     map <leader>cd :cd %:p:h<cr>
 
 "  }}}
+
 
 " Visual Mode Related  {{{
     "  In visual mode when you press * or # to search for the current selection
@@ -421,6 +450,7 @@
         let @" = l:saved_reg
     endfunction
 "  }}}
+
 
 " Command Mode Related  {{{
     " Smart mappings on the command line
@@ -465,6 +495,7 @@
 
 "  }}}
 
+
 " Editing Mappings  {{{
     "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
     nmap <M-j> mz:m+<cr>`z
@@ -492,7 +523,11 @@
     nmap ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>o<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
     nmap Ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>O<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
 
+    imap jk <Esc>
+    imap kj <Esc>
+
 "  }}}
+
 
 " Spell Checking  {{{
     "Pressing ,ss will toggle and untoggle spell checking
@@ -505,81 +540,53 @@
     map <leader>s? z=
 "  }}}
 
-" JavaScript Section  {{{
-    au FileType javascript imap <c-l> console.log();<esc>hi
-    "au FileType javascript call JavaScriptFold()
-    au FileType javascript setl completefunc=tern#Complete
-    "au FileType javascript setl nocindent
-    au FileType javascript nmap <buffer> gd :TernDef<cr>
 
-    au FileType javascript nmap <buffer> <leader>; A;<cr>
+" Language-specific autocmds and mappings {{{
 
-    "function! JavaScriptFold()
-        "setl foldmethod=syntax
-        "setl foldlevelstart=100
-        "syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+    " JavaScript Section  {{{
+        au FileType javascript imap <c-l> console.log();<esc>hi
+        "au FileType javascript call JavaScriptFold()
+        au FileType javascript setl completefunc=tern#Complete
+        "au FileType javascript setl nocindent
+        au FileType javascript nmap <buffer> gd :TernDef<cr>
 
-        "function! FoldText()
-            "return substitute(getline(v:foldstart), '{.*', '{...}', '') " } this closing curly is for vim's % :)
+        au FileType javascript nmap <buffer> <leader>; A;<cr>
+
+        "function! JavaScriptFold()
+            "setl foldmethod=syntax
+            "setl foldlevelstart=100
+            "syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+
+            "function! FoldText()
+                "return substitute(getline(v:foldstart), '{.*', '{...}', '') " } this closing curly is for vim's % :)
+            "endfunction
+            "setl foldtext=FoldText()
+            "setl fen
         "endfunction
-        "setl foldtext=FoldText()
-        "setl fen
-    "endfunction
 
-    let g:tagbar_type_javascript = {
-        \ 'ctagsbin' : '/usr/local/bin/jsctags'
-    \ }
-"  }}}
+        let g:tagbar_type_javascript = {
+            \ 'ctagsbin' : '/usr/local/bin/jsctags'
+        \ }
+    "  }}}
 
-" php Section  {{{
-    au FileType php imap <buffer> <c-e> <?php echo  ?><esc>hhi
-    au FileType php imap <buffer> <c-p> <?php  ?><esc>hhi
-    au FileType php imap <buffer> <c-P> <?php<return><return>?><esc>k^i<tab>
-"  }}}
+    " php Section  {{{
+        au FileType php imap <buffer> <c-e> <?php echo  ?><esc>hhi
+        au FileType php imap <buffer> <c-p> <?php  ?><esc>hhi
+        au FileType php imap <buffer> <c-P> <?php<return><return>?><esc>k^i<tab>
+    "  }}}
 
-" html Section {{{
+    " html Section {{{
 
-    au FileType html iabbrev <buffer> <// </<C-X><C-O>
+        au FileType html iabbrev <buffer> <// </<C-X><C-O>
 
-" }}}
+    " }}}
 
-" viml Section {{{
-    au FileType vim nmap <buffer> <leader>h "zyw:exe "h ".@z.""<CR>"
-" }}}
-
-" tern.js Mappings {{{
-
-    let g:tern_show_argument_hints='on_hold'
-    "let g:tern_show_argument_hints='on_move'
-    map <leader>tD      :TernDoc<cr>
-    map <leader>tB      :TernDocBrowse<cr>
-    map <leader>tt      :TernType<cr>
-    map <leader>td      :TernDef<cr>
-    map <leader>tp      :TernDefPreview<cr>
-    map <leader>ts      :TernDefSplit<cr>
-    map <leader>tnd     :TernDefTab<cr>
-    map <leader>tr      :TernRefs<cr>
-    map <leader>tR      :TernRename<cr>
+    " viml Section {{{
+        au FileType vim nmap <buffer> <leader>h "zyw:exe "h ".@z.""<CR>"
+    " }}}
 
 " }}}
 
-" Fugitive Mappings  {{{
-    map <leader>gc :Gcommit<cr>
-    map <leader>Gp :!git pull
-    map <leader>GP :!git push<cr>
-    map <leader>gRR :VCSRevert<cr>
-    map <leader>gs :Gstatus<cr>
-"  }}}
-
-" CtrlP Mappings  {{{
-    noremap <leader>o :CtrlP<cr>
-"  }}}
-
-" Tabular mappings {{{
-
-    map <leader>a :Tabularize /
-
-" }}}
 
 " Cope Mappings  {{{
     map <leader>cc :botright cope<cr>
@@ -589,8 +596,8 @@
     map <leader>p :cp<cr>
 "  }}}
 
+
 " Plugin Settings  {{{
-    let b:match_ignorecase = 1 " case is stupid
     let perl_extended_vars = 1 " highlight advanced perl vars
                                " inside strings
 
@@ -599,9 +606,6 @@
     " gundo Settings {{{
         let g:gundo_right = 1  " show gundo tree on the right
     " }}}
-
-    "au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    "au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
     let g:ycm_semantic_triggers =  {
     \   'c' : ['->', '.'],
@@ -672,6 +676,91 @@
         "let g:clang_complete_auto=1
     ""  }}}
 
+    " neocomplete settings {{{
+        " Use neocomplete.
+        let g:neocomplete#enable_at_startup = 1
+        " Use smartcase.
+        let g:neocomplete#enable_smart_case = 1
+        " Set minimum syntax keyword length.
+        let g:neocomplete#sources#syntax#min_keyword_length = 3
+        let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+        " Always use neocomplete
+        let g:neocomplete#force_overwrite_completefunc = 1
+
+        " Define dictionary.
+        let g:neocomplete#sources#dictionary#dictionaries = {
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+
+        " Define keyword.
+        if !exists('g:neocomplete#keyword_patterns')
+            let g:neocomplete#keyword_patterns = {}
+        endif
+        let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+        " Plugin key-mappings.
+        inoremap <expr><C-g>     neocomplete#undo_completion()
+        inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+        " Recommended key-mappings.
+        " <CR>: close popup and save indent.
+        inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+        function! s:my_cr_function()
+        return neocomplete#close_popup() . "\<CR>"
+        " For no inserting <CR> key.
+        "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+        endfunction
+        " <TAB>: completion.
+        inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+        " <C-h>, <BS>: close popup and delete backword char.
+        inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+        inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+        inoremap <expr><C-y>  neocomplete#close_popup()
+        inoremap <expr><C-e>  neocomplete#cancel_popup()
+        " Close popup by <Space>.
+        "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+        " For cursor moving in insert mode(Not recommended)
+        "inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+        "inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+        "inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+        "inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+        " Or set this.
+        "let g:neocomplete#enable_cursor_hold_i = 1
+        " Or set this.
+        "let g:neocomplete#enable_insert_char_pre = 1
+
+        " AutoComplPop like behavior.
+        "let g:neocomplete#enable_auto_select = 1
+
+        " Shell like behavior(not recommended).
+        "set completeopt+=longest
+        "let g:neocomplete#enable_auto_select = 1
+        "let g:neocomplete#disable_auto_complete = 1
+        "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+        " Enable omni completion.
+        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+        " Enable heavy omni completion.
+        if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+        endif
+        "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+        "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+        "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+        " For perlomni.vim setting.
+        " https://github.com/c9s/perlomni.vim
+        let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+    " }}}
+
     " TagList Settings  {{{
         let Tlist_Auto_Open=0              " let the tag list open automatically
         let Tlist_Compact_Format = 1       " show small menu
@@ -734,7 +823,54 @@
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
     " }}}
 
+    " tern.js Mappings {{{
+
+        let g:tern_show_argument_hints='on_hold'
+        "let g:tern_show_argument_hints='on_move'
+        map <leader>tD      :TernDoc<cr>
+        map <leader>tB      :TernDocBrowse<cr>
+        map <leader>tt      :TernType<cr>
+        map <leader>td      :TernDef<cr>
+        map <leader>tp      :TernDefPreview<cr>
+        map <leader>ts      :TernDefSplit<cr>
+        map <leader>tnd     :TernDefTab<cr>
+        map <leader>tr      :TernRefs<cr>
+        map <leader>tR      :TernRename<cr>
+
+    " }}}
+
+    " Fugitive Mappings  {{{
+        map <leader>gc :Gcommit<cr>
+        map <leader>Gp :!git pull
+        map <leader>GP :!git push<cr>
+        map <leader>gRR :VCSRevert<cr>
+        map <leader>gs :Gstatus<cr>
+    "  }}}
+
+    " CtrlP Mappings  {{{
+        noremap <leader>o :CtrlP<cr>
+    "  }}}
+
+    " Tabular mappings {{{
+
+        map <leader>a :Tabularize /
+
+    " }}}
+
+    " rainbow improved settings {{{
+
+        let g:rainbow_active=1
+        let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+
+        au FileType c,cpp,objc,objcpp,go,rust,javascript,java call rainbow#load()
+        au FileType clojure call rainbow#load(
+                    \ [['(', ')'], ['\[', '\]'], ['{', '}']],
+                    \ '"[-+*/=><%^&$#@!~|:?\\]"')
+    " }}}
+
+    let g:NERDTreeDirArrows=0
 "  }}}
+
 
 " Autocommands  {{{
     function! IndentFold() " Unused for now
@@ -782,45 +918,53 @@
     autocmd BufWritePost ~/.vim/vimrc source $MYVIMRC
 "  }}}
 
+
 " GUI Settings, colors and fonts  {{{
 
-set background=dark           " we plan to use a dark background
-" solarized options
-"let g:solarized_contrast="normal"
-"let g:solarized_termtrans=0
-let g:solarized_bold=0
-"let g:solarized_termcolors=256
-"set t_Co=256
+    " Solarized settings {{{
+        set background=dark " we plan to use a dark background
+        " solarized options
+        "let g:solarized_contrast="normal"
+        "let g:solarized_termtrans=0
+        let g:solarized_bold=0
+        let g:solarized_termcolors=256
+    " }}}
 
-if has("gui_running")
-    " Basics  {{{
-        "colorscheme metacosm " my color scheme (only works in GUI)
-        set columns=180 " perfect size for me
-        set guifont=Anonymice_Powerline:h14 " My favorite font
-        set guioptions=ce
-        "              ||
-        "              |+-- use simple dialogs rather than pop-ups
-        "              +  use GUI tabs, not console style tabs
-        set lines=55 " perfect size for me
-        set mousehide " hide the mouse cursor when typing
-    "  }}}
+    set t_Co=256
 
-    " Font Switching Binds  {{{
-        "map <F8> <ESC>:set guifont=Consolas:h8<CR>
-        "map <F9> <ESC>:set guifont=Consolas:h10<CR>
-        "map <F10> <ESC>:set guifont=Consolas:h12<CR>
-        "map <F11> <ESC>:set guifont=Consolas:h16<CR>
-        "map <F12> <ESC>:set guifont=Consolas:h20<CR>
-    "  }}}
-else
-    set timeoutlen=500
-    set ttimeoutlen=0
-endif
+    if has("gui_running")
+        " Basics  {{{
+            "colorscheme metacosm " my color scheme (only works in GUI)
+            set columns=180 " perfect size for me
+            set guifont=Anonymice_Powerline:h14 " My favorite font
+            set guioptions=ce
+            "              ||
+            "              |+-- use simple dialogs rather than pop-ups
+            "              +  use GUI tabs, not console style tabs
+            set lines=55 " perfect size for me
+            set mousehide " hide the mouse cursor when typing
+        "  }}}
 
-silent! colorscheme solarized " my favorite color scheme (only works in GUI or with 256-color terminal emulator using the solarized colorscheme)
+        " Font Switching Binds  {{{
+            "map <F8> <ESC>:set guifont=Consolas:h8<CR>
+            "map <F9> <ESC>:set guifont=Consolas:h10<CR>
+            "map <F10> <ESC>:set guifont=Consolas:h12<CR>
+            "map <F11> <ESC>:set guifont=Consolas:h16<CR>
+            "map <F12> <ESC>:set guifont=Consolas:h20<CR>
+        "  }}}
+    else
+        set timeoutlen=500
+        set ttimeoutlen=0
+    endif
+
+    "silent! colorscheme solarized " only works in GUI or with 256-color terminal emulator using the solarized colorscheme
+    "silent! colorscheme jellybeans
+    silent! colorscheme hybrid
 "  }}}
 
+
 " Misc.  {{{
+    let b:match_ignorecase = 1 " case is stupid
     " Remove the Windows ^M - when the encodings gets messed up
     noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
@@ -851,4 +995,9 @@ silent! colorscheme solarized " my favorite color scheme (only works in GUI or w
     set modelines=1
     set modeline
 
+    " sticky fingers
+    command WQ wq
+    command Wq wq
+    command W w
+    command Q q
 "  }}}
