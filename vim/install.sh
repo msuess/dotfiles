@@ -18,6 +18,8 @@ if $IS_DARWIN; then
     checkExe brew
 fi
 
+ln -s $(pwd) ~/.vim
+
 # require >= ViM 7.3
 MIN_VIM_MAJOR=7
 MIN_VIM_MINOR=3
