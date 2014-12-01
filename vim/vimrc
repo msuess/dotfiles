@@ -60,8 +60,8 @@
     Bundle 'kien/ctrlp.vim'
 
     "Bundle 'Shougo/neocomplcache'
-    Bundle 'Shougo/neocomplete'
-    "Bundle 'Valloric/YouCompleteMe'
+    "Bundle 'Shougo/neocomplete'
+    Bundle 'Valloric/YouCompleteMe'
 
     Bundle 'derekwyatt/vim-scala'
 
