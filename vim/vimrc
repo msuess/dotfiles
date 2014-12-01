@@ -106,13 +106,11 @@
     "Bundle 'slimv.vim'
 
     " clojure support
-    "Bundle 'VimClojure'
     Bundle 'guns/vim-clojure-static'
     Bundle 'guns/vim-sexp'
     Bundle 'tpope/vim-sexp-mappings-for-regular-people'
     Bundle 'tpope/vim-fireplace'
     Bundle 'guns/vim-clojure-highlight'
-    "Bundle 'kien/rainbow_parentheses.vim'
     Bundle 'oblitum/rainbow'
     Bundle 'christoomey/vim-tmux-navigator'
 
@@ -809,15 +807,6 @@
         let g:yankring_history_dir = '~/.vim/.yankring'
         map <leader>y :YRShow<cr>
     "  }}}
-
-    " VimClojure settings {{{
-        let vimclojure#HighlightBuiltins   = 1
-        let vimclojure#HighlightContrib    = 1
-        let vimclojure#DynamicHighlighting = 1
-        let vimclojure#ParenRainbow        = 1
-        let vimclojure#WantNailgun         = 1
-        let vimclojure#NailgunClient       = '/usr/local/bin/ng'
-    " }}}
 
     " UltiSnips Settings {{{
         let g:UltiSnipsExpandTrigger="<c-j>"
