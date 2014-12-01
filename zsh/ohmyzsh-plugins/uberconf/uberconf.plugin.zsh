@@ -2,7 +2,7 @@ if [ -f ~/.env ]; then
   . ~/.env
 fi
 
-cat $(dirname $(gnu readlink -f $0))/logo
+#cat $(dirname $(gnu readlink -f $0))/logo
 
 #ZDEBUG=1
 U_ZDOTDIR=$U_BASEDIR/zsh-config
