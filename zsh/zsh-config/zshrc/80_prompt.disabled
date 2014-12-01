@@ -1,0 +1,91 @@
+# zshrc/80_prompt
+#
+# Formats the shell prompt
+#
+# Copyright © 1994–2008 martin f. krafft <madduck@madduck.net>
+# Released under the terms of the Artistic Licence 2.0
+#
+# Source repository: git://git.madduck.net/etc/zsh.git
+#
+
+_ORIG_PS1='lol'
+_PROMPT_VCS_ICON=''
+
+if [ "${PS1:-}" = '%m%# ' ]; then
+  #local _MIDDLE="%1v%(2v.|%B%2v%b|.)%(3v.%3v.)"
+  local _MIDDLE="%1v%(2v.|%2v|.)%(3v.%3v.)"
+  if is_root; then
+    _MIDDLE="%25<..<%~%<<"
+    local _PS1_HL=U
+  fi
+
+  local _MACHINE_NAME="${_PS1_HL:=B}%m%${(L)_PS1_HL}"
+  _MACHINE_NAME="$_MACHINE_NAME${debian_chroot:+/%S$debian_chroot%s}"
+
+  if [ $SSH_CONNECTION ]; then
+    PS1="%(2L.+.)%${_MACHINE_NAME}:${_MIDDLE}"
+  else
+    PS1="local:${_MIDDLE}"
+  fi
+
+  _ORIG_PS1=$PS1
+fi
+
+__update_vcs_icon()
+{
+    local repotype
+    repotype=$(__vcs_get_repo_type)
+
+    case "$repotype" in
+        git)
+            _PROMPT_VCS_ICON='± '
+            ;;
+        hg)
+            _PROMPT_VCS_ICON='☿ '
+            ;;
+        NONE)
+            _PROMPT_VCS_ICON=''
+            ;;
+        *)
+            _PROMPT_VCS_ICON="$repotype "
+            ;;
+    esac
+}
+
+chpwd_functions+=__update_vcs_icon
+
+
+__update_prompt()
+{
+    #RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    #RPS2=$RPS1
+    local mode_prefix mode_bg mode_fg bg_c
+    bg_c=grey
+
+    if [ "${KEYMAP}" = 'vicmd' ]; then
+        mode_bg="$bg[green]"
+        mode_fg="$fg[green]"
+        mode_prefix="%{$bg[green]$fg[black]%} N %{$bg[$bg_c]%}%{$fg[green]%}⮀%{$reset_color$bg[$bg_c]%}"
+    else
+        mode_bg="$bg[blue]"
+        mode_fg="$fg[blue]"
+        mode_prefix="%{$bg[blue]$fg[black]%} I %{$bg[$bg_c]%}%{$fg[blue]%}⮀%{$reset_color$bg[$bg_c]%}"
+    fi
+
+    PS1="%{$mode_fg%}$_PROMPT_VCS_ICON%{$reset_color%}$_ORIG_PS1%{$mode_fg%}%#%{$reset_color%} "
+}
+
+chpwd_functions+=__update_prompt
+__update_prompt
+
+function zle-line-init zle-keymap-select {
+    __update_prompt
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+: ${RPS1:="#%(0?..%?,)%!"}
+
+# vim:ft=zsh

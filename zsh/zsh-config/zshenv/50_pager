@@ -1,0 +1,5 @@
+export PAGER=most
+
+#export PAGER=vimpager
+
+# vim:ft=zsh

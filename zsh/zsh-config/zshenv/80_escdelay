@@ -1,0 +1,4 @@
+ESCDELAY=25
+export ESCDELAY
+
+# vim:ft=zsh

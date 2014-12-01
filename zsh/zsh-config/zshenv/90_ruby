@@ -1,0 +1,3 @@
+command -v brew >/dev/null 2>&1 && export GEM_HOME=$(brew --prefix)/Cellar/gems/1.8
+
+# vim:ft=zsh

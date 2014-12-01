@@ -1,0 +1,8 @@
+export MANPATH=~/.local/share/man:/usr/local/man:/usr/local/share/man:/usr/share/man
+
+mkdir -p $DUMMY_BUNDLEDIR/share/man
+for i in ~/.local/bundle/*/share/man; do
+    export MANPATH=$i:$MANPATH;
+done;
+
+# vim:ft=zsh

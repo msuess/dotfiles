@@ -1,0 +1,9 @@
+autoload predict-on
+zle -N predict-on
+zle -N predict-off
+bindkey '^z'   predict-on
+bindkey '^x^z' predict-off
+zstyle ':predict' verbose true
+zstyle ':predict' cursor key
+
+# vim:ft=zsh

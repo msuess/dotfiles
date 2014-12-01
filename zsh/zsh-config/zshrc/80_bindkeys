@@ -1,0 +1,38 @@
+# zshrc/80_bindkeys
+#
+# Defines key bindings
+#
+# Copyright © 1994–2008 martin f. krafft <madduck@madduck.net>
+# Released under the terms of the Artistic Licence 2.0
+#
+# Source repository: git://git.madduck.net/etc/zsh.git
+#
+
+# use emacs keybindings by default
+bindkey -e
+
+# use vi keybindings by default
+#bindkey -v
+
+# history expansion on pressing space
+bindkey ' ' magic-space
+
+# prefix search (up to cursor position)
+bindkey '^xp' history-beginning-search-backward
+bindkey '^xn' history-beginning-search-forward
+
+# repeat the previous shell-word ($WORDCHARS)
+bindkey '\e=' copy-prev-shell-word
+
+# allow for better ad-hoc multiline editing
+bindkey '\eq' push-line-or-edit
+
+# bind arrow up and down to history search
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+# bind ctrl-j and ctrl-k to history search
+bindkey '^k' history-search-backward
+bindkey '^j' history-search-forward
+
+# vim:ft=zsh

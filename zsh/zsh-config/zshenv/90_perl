@@ -1,0 +1,4 @@
+local LIBDIR=~/.local/lib/perl5
+export PERL5LIB=$LIBDIR:$LIBDIR/site_perl:$LIBDIR/site_perl/5.10.0/i486-linux-gnu-thread-multi:$LIBDIR/5.10.0/i486-linux-gnu-thread-multi:$LIBDIR/inc:$LIBDIR/i486-linux-gnu-thread-multi
+
+# vim:ft=zsh

@@ -1,0 +1,45 @@
+# zprofile/00_path
+#
+# Adds custom directories to the $PATH
+#
+# Copyright © 1994–2008 martin f. krafft <madduck@madduck.net>
+# Released under the terms of the Artistic Licence 2.0
+#
+# Source repository: git://git.madduck.net/etc/zsh.git
+#
+
+__prepend_dir_to_path()
+{
+  local dir
+  for dir; do
+    case "$PATH" in
+      "*:${dir}:*"|"${dir}:*"|"*:${dir}") :;;
+      *) test -d "$dir" && path=("$dir" $path);;
+    esac
+  done
+}
+
+__append_dir_to_path()
+{
+  local dir
+  for dir; do
+    case "$PATH" in
+      "*:${dir}:*"|"${dir}:*"|"*:${dir}") :;;
+      *) test -d "$dir" && path+="$dir";;
+    esac
+  done
+}
+
+__prepend_dir_to_path $BINDIR
+__prepend_dir_to_path $BINDIR
+mkdir -p $DUMMY_BUNDLEDIR/bin
+__prepend_dir_to_path $BUNDLEDIR/*/bin
+#__prepend_dir_to_path /var/lib/gems/1.8/bin
+__prepend_dir_to_path /usr/local/bin
+__prepend_dir_to_path $ANDROID_HOME/tools
+__prepend_dir_to_path $ANDROID_HOME/platform-tools
+#__append_dir_to_path /usr/lib/surfraw
+
+#__prepend_dir_to_path ~/.npm/*/*/package/bin
+
+# vim:ft=zsh

@@ -1,0 +1,164 @@
+# zshrc/30_aliases
+#
+# Defines command shortcuts
+#
+# Copyright © 1994–2008 martin f. krafft <madduck@madduck.net>
+# Released under the terms of the Artistic Licence 2.0
+#
+# Source repository: git://git.madduck.net/etc/zsh.git
+#
+
+alias mv='nocorrect mv'
+alias cp='nocorrect cp'
+alias ln='nocorrect ln'
+alias mkdir='nocorrect mkdir'
+alias rm='nocorrect rm'
+
+alias find='noglob find'
+alias w3m='noglob w3m -no-mouse'
+alias links='noglob links'
+alias wb='noglob www-browser'
+alias wget='noglob wget'
+alias curl='noglob curl'
+alias apt-cache='noglob apt-cache'
+alias locate='noglob locate'
+
+local _USER_AGENT="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.14) Gecko/20080404 Iceweasel/2.0.0.14 (Debian-2.0.0.14-2)"
+alias swget="noglob wget --user-agent='$_USER_AGENT'"
+alias curla="noglob curl -A '$_USER_AGENT'"
+
+if [ $(uname) = 'Darwin' ]; then
+    local _LS="gls"
+    alias readlink='greadlink'
+else
+    local _LS="ls"
+fi
+
+
+typeset -a _ls_opts; _ls_opts=(-bC --color=auto)
+command ls --group-directories-first >/dev/null 2>&1 \
+  && _ls_opts+=--group-directories-first
+# I prefer POSIX collation for ls
+
+local _LS_COMMAND="LC_COLLATE=POSIX $_LS $_ls_opts"
+alias ls="$_LS_COMMAND"
+
+alias l="$_LS_COMMAND --time-style=+%Y/%m/%d\|%H%M -gGh"
+alias ll="$_LS_COMMAND -l"
+alias la="$_LS_COMMAND -a"
+alias lla="$_LS_COMMAND -la"
+alias lt="$_LS_COMMAND -lt"
+alias lrt="$_LS_COMMAND -lrt"
+alias lat="$_LS_COMMAND -lat"
+alias lart="$_LS_COMMAND -lart"
+# List only directories and symbolic links that point to directories
+alias lsd='ll -d *(-/DN)'
+
+alias lscontext='l'
+#cd () { __CHPWD_RUN_FIRST=lscontext && builtin cd "$@" && unset __CHPWD_RUN_FIRST }
+#_cd_l() { lscontext }
+#chpwd_functions+=_cd_l
+
+_ls_on_chpwd() {
+  integer ls_lines="$(lscontext | wc -l)"
+  if [ $ls_lines -eq 0 ]; then
+    echo Empty Directory
+  elif [ $ls_lines -lt $LINES ]; then
+    eval 'lscontext'
+  else
+    integer la_lines="$(ls -a -w $COLUMNS | wc -l)"
+    if [ $la_lines -lt $LINES ]; then
+      eval 'la'
+    else
+      echo $ls_lines items
+    fi
+  fi
+}
+chpwd_functions+=_ls_on_chpwd
+
+# #183394
+#alias w='w|cat'
+
+alias egrep='egrep --color=auto -d skip'
+alias fgrep='fgrep --color=auto -d skip'
+alias grep='grep --color=auto -d skip'
+
+alias mmv='noglob zmv -W'
+alias zcp='zmv -C'
+alias zln='zmv -L'
+alias zgmv='zmv -p git-mv'
+
+alias cal='cal -3'
+alias ftp=lftp
+
+alias mbug='bts show --mbox'
+alias bug='BROWSER=www-browser bts show'
+
+# handy documentation lookup on Debian
+# from http://www.michael-prokop.at/computer/config/.zshrc
+doc() { cd /usr/share/doc/$1 && ls }
+_doc() { _files -W /usr/share/doc -/ }
+compdef _doc doc
+
+alias giti='git init && git add . && git commit -minitial\ checkin && git tag orig'
+
+if whence mtail >/dev/null; then
+  alias t=mtail
+elif whence tailf >/dev/null; then
+  alias t=tailf
+else
+  alias t='tail -f'
+fi
+alias tsl='t /var/log/syslog'
+alias lsl='sensible-pager /var/log/syslog'
+alias tml='t /var/log/mail.log'
+alias lml='sensible-pager /var/log/mail.log'
+alias tal='t /var/log/auth.log'
+alias lal='sensible-pager /var/log/auth.log'
+alias tdl='t /var/log/daemon.log'
+alias ldl='sensible-pager /var/log/daemon.log'
+alias tkl='t /var/log/kern.log'
+alias lkl='sensible-pager /var/log/kern.log'
+
+alias px='ps afux'
+alias mps='ps -ao user,pcpu,start,command'
+
+alias bofh='fortune bofh-excuses'
+
+autoload -U baseconv
+alias b2d='baseconv 2 10'
+alias d2b='baseconv 10 2'
+alias d2h='baseconv 10 16'
+alias h2d='baseconv 16 10'
+alias d2o='baseconv 10 8'
+alias o2d='baseconv 8 10'
+
+alias sendmail=/usr/sbin/sendmail
+
+alias dpkg-buildpackage="dpkg-buildpackage -k$DEBKEYID -rfakeroot"
+
+uc() { unicode --max=0 --colour=off "$@" | sensible-pager }
+
+alias ipr='ip r'
+alias ipa='ip a'
+alias ipl='ip l'
+
+alias btd='btdownloadheadless'
+
+alias mdtest='swaks -s localhost -t'
+
+# FIXME jaunty newsbeuter does not work with terminal ids that indicate 256
+# color support
+alias newsbeuter='TERM=xterm newsbeuter'
+
+if whence devtodo >/dev/null; then
+  _devtodo_on_chpwd() { 
+    local out; out="$(devtodo --force-colour -f +children)"
+    [[ -n $out ]] && print "todo:\n$out"
+  }
+  chpwd_functions+=_devtodo_on_chpwd
+fi
+
+alias ssh-x='ssh -c arcfour,blowfish-cbc -XC'
+
+# vim:ft=zsh
