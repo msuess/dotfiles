@@ -87,6 +87,7 @@
     Bundle 'Lokaltog/vim-easymotion'
 
     Bundle 'tpope/vim-rails.git'
+    Bundle 'tpope/vim-rake'
 
     Bundle 'kchmck/vim-coffee-script'
 
