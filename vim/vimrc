@@ -202,7 +202,9 @@
     catch
     endtry
 
-    "set clipboard+=unnamed " share windows clipboard
+    if MySys() == "windows" || MySys() == "mac"
+        set clipboard+=unnamed " share windows/osx clipboard
+    endif
 
     set fileformats=unix,dos,mac   " support all three, in this order
     set hidden                     " you can change buffers without saving
