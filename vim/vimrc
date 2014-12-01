@@ -94,6 +94,8 @@
 
     Bundle 'tpope/vim-markdown'
 
+    Bundle 'tpope/vim-abolish'
+
     Bundle 'kchmck/vim-coffee-script'
 
     Bundle 'bling/vim-airline'
@@ -158,6 +160,8 @@
     Bundle 'nelstrom/vim-textobj-rubyblock'
 
     Bundle 'SirVer/ultisnips'
+
+    Bundle 'hail2u/vim-css3-syntax'
 
     Bundle 'ap/vim-css-color'
 
