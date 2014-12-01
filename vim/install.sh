@@ -11,8 +11,8 @@ checkExe()
 checkExe vim    # duh
 checkExe make
 checkExe git
-checkExe node
-checkExe npm
+#checkExe node
+#checkExe npm
 
 if $IS_DARWIN; then
     checkExe brew
