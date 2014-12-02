@@ -40,7 +40,7 @@ ZSH_THEME="marcosuess"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(baseenv gnu_for_osx dircolors uberconf git mvn brew osx terminalapp npm node)
+plugins=(boxen baseenv gnu_for_osx dircolors uberconf git mvn brew osx terminalapp npm node)
 
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
