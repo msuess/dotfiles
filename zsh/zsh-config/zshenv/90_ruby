@@ -1,3 +1,4 @@
-command -v brew >/dev/null 2>&1 && export GEM_HOME=$(brew --prefix)/Cellar/gems/1.8
+#command -v brew >/dev/null 2>&1 && export GEM_HOME=$(brew --prefix)/Cellar/gems/1.8
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # vim:ft=zsh

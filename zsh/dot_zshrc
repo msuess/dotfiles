@@ -59,3 +59,5 @@ export NODE_PATH=/usr/local/share/npm/lib/node_modules
 export PATH=$PATH:/usr/local/share/npm/bin:$NODE_PATH
 
 # vim:ft=zsh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
