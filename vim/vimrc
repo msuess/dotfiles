@@ -119,6 +119,8 @@
 
     Bundle 'godlygeek/tabular'
 
+    Bundle 'rodjek/vim-puppet'
+
     Bundle 'wavded/vim-stylus'
 
     " slime for vim
