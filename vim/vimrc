@@ -177,6 +177,8 @@
 
     Bundle 'tpope/vim-repeat'
 
+    Bundle 'christoomey/vim-sort-motion'
+
     set rtp+=~/.vim/local/
 
     " % works with tags & more
@@ -923,6 +925,7 @@
     "  }}}
 
     au FileType sh,zsh call SetShortTabStops()
+    au FileType scss,css call SetShortTabStops()
 
     " When editing a file, always jump to the last known cursor position.
     autocmd BufReadPost *
