@@ -147,9 +147,6 @@
     " relative line numbers in normal mode
     Bundle 'myusuf3/numbers.vim'
 
-    " % works with tags & more
-    "Bundle 'tsaleh/vim-matchit'
-
     " graphical undo
     Bundle 'sjl/gundo.vim'
 
@@ -181,6 +178,9 @@
     Bundle 'tpope/vim-repeat'
 
     set rtp+=~/.vim/local/
+
+    " % works with tags & more
+    runtime macros/matchit.vim
 "  }}}
 
 
