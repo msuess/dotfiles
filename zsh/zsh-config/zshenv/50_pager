@@ -1,4 +1,4 @@
-export PAGER=most
+export PAGER=less
 
 #export PAGER=vimpager
 
