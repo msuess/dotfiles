@@ -426,8 +426,8 @@
         map <up> <ESC>:bp<RETURN>
 
         map <left> <ESC>:NERDTreeToggle<RETURN>
-        "map <right> <ESC>:TagbarToggle<RETURN>
-        map <right> <ESC>:GundoToggle<RETURN>
+        map <right> <ESC>:TagbarToggle<RETURN>
+        "map <right> <ESC>:GundoToggle<RETURN>
     "  }}}
 
     " Tab configuration
@@ -636,7 +636,7 @@
     let perl_extended_vars = 1 " highlight advanced perl vars
                                " inside strings
 
-    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+    let g:tagbar_ctags_bin = 'ctags'
 
     " gundo Settings {{{
         let g:gundo_right = 1  " show gundo tree on the right
