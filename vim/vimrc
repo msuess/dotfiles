@@ -102,6 +102,7 @@
     Bundle 'tpope/vim-rails.git'
     Bundle 'tpope/vim-rake'
     Bundle 'tpope/vim-endwise'
+    Bundle 'tpope/vim-bundler'
 
     Bundle 'tpope/vim-markdown'
 
@@ -132,8 +133,8 @@
     Bundle 'tpope/vim-sexp-mappings-for-regular-people'
     Bundle 'tpope/vim-fireplace'
     Bundle 'guns/vim-clojure-highlight'
-    Bundle 'oblitum/rainbow'
     Bundle 'christoomey/vim-tmux-navigator'
+    Bundle 'luochen1990/rainbow'
 
     " slime for vim
     "Bundle 'xaviershay/tslime.vim'
@@ -885,12 +886,7 @@
     " rainbow improved settings {{{
 
         let g:rainbow_active=1
-        let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 
-        au FileType c,cpp,objc,objcpp,go,rust,javascript,java call rainbow#load()
-        au FileType clojure call rainbow#load(
-                    \ [['(', ')'], ['\[', '\]'], ['{', '}']],
-                    \ '"[-+*/=><%^&$#@!~|:?\\]"')
     " }}}
 
     let g:NERDTreeDirArrows=0
