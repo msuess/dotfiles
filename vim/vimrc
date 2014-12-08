@@ -656,6 +656,10 @@
     \   'html,xml' : ['<', '/', ' '],
     \ }
 
+    let g:rubycomplete_buffer_loading = 1
+    let g:rubycomplete_classes_in_global=1
+    let g:rubycomplete_rails = 1
+
     "" neocomplcache Settings  {{{
         "let g:neocomplcache_enable_at_startup = 1            " enable at startup
         "let g:neocomplcache_enable_smart_case = 1            " smartcase completion
