@@ -663,6 +663,9 @@
         if executable('scss-lint')
             let g:syntastic_scss_checkers = ['scss_lint']
         endif
+        if executable('rubocop')
+            let g:syntastic_ruby_checkers = ['rubocop']
+        endif
     " }}}
 
     " TagList Settings  {{{
