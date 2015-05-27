@@ -160,5 +160,5 @@ if whence devtodo >/dev/null; then
 fi
 
 alias ssh-x='ssh -c arcfour,blowfish-cbc -XC'
-
+alias chrome_mem='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/tmp/chrome-temp-profile --no-first-run --js-flags="--nocrankshaft --noopt"'
 # vim:ft=zsh

@@ -177,6 +177,8 @@
 
     Bundle 'christoomey/vim-sort-motion'
 
+    Bundle 'fatih/vim-go'
+
     set rtp+=~/.vim/local/
 
     " % works with tags & more
@@ -550,8 +552,8 @@
 
     " indented block paste (like ]p, but works also when preceded by an empty
     " line)
-    nmap ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>o<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
-    nmap Ü :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>O<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
+    nmap <leader>p :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>o<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
+    nmap <leader>P :let @z=substitute(substitute(strtrans(@"),'\^@.*', '', 'g'), '^\s*', '', 'g')<CR>O<C-R>z<Esc>:let @z=substitute(@", @z, '', '')<CR>"z]p"_ddk
 
     imap jk <Esc>
     imap kj <Esc>
@@ -625,7 +627,7 @@
     map <leader>cw :botright cw<cr>
     map <leader>cq :ccl<cr>
     map <leader>n :cn<cr>
-    map <leader>p :cp<cr>
+    map <leader>N :cp<cr>
 "  }}}
 
 
@@ -790,6 +792,9 @@
     "  }}}
     " jade  {{{
         au FileType jade call SetShortTabStops()
+    "  }}}
+    " javascript  {{{
+        au FileType javascript call SetShortTabStops()
     "  }}}
 
     au FileType sh,zsh call SetShortTabStops()
