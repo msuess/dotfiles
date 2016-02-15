@@ -64,7 +64,7 @@ echo 'source ~/.vim/vimrc' >> ~/.vimrc
 
 
 echo Installing Bundles
-vim +BundleInstall +qall
+vim +PluginInstall +qall
 
 
 echo Finalizing Bundles

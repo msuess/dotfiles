@@ -39,6 +39,8 @@ __prepend_dir_to_path /usr/local/bin
 __prepend_dir_to_path $ANDROID_HOME/tools
 __prepend_dir_to_path $ANDROID_HOME/platform-tools
 #__append_dir_to_path /usr/lib/surfraw
+__prepend_dir_to_path /usr/local/cuda/bin
+
 
 #__prepend_dir_to_path ~/.npm/*/*/package/bin
 
